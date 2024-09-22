@@ -1,5 +1,5 @@
 {
-  "name": "rn-free-canvas",
+  "name": "react-native-free-canvas",
   "version": "1.0.0",
   "scripts": {
     "build": "bob build"

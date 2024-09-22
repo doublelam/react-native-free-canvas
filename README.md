@@ -1,4 +1,4 @@
-# rn-free-canvas
+# react-native-free-canvas
 Free sketch on canvas base on  @shopify/react-native-skia
 
 
