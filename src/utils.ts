@@ -1,12 +1,11 @@
-import { SharedValue } from "react-native-reanimated";
+import { SharedValue } from 'react-native-reanimated';
 import { makeMutable } from 'react-native-reanimated';
 
-export const getSharedValue = <T extends unknown>(val: T | SharedValue<T>) => {
+export const getSharedValue = <T>(val: T | SharedValue<T>) => {
   'worklet';
 
-  return (val && typeof val === 'object' && 'value' in val) ? val.value : val;
+  return val && typeof val === 'object' && 'value' in val ? val.value : val;
 };
-
 
 const PENDING_TIMEOUTS = makeMutable<Record<string, boolean>>({});
 const TIMEOUT_ID = makeMutable(0);
@@ -24,7 +23,7 @@ function removeFromPendingTimeouts(id: AnimatedTimeoutID): void {
 
 export function setAnimatedTimeout<F extends () => void>(
   callback: F,
-  delay: number
+  delay: number,
 ): AnimatedTimeoutID {
   'worklet';
   let startTimestamp: number;

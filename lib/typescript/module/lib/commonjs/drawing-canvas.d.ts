@@ -1,7 +1,4 @@
 export const __esModule: boolean;
-export default DrawingCanvas;
-declare function DrawingCanvas({ foreground, drawingPath }: {
-    foreground: any;
-    drawingPath: any;
-}): React.ReactElement<any, string | React.JSXElementConstructor<any>>;
+declare const _default: any;
+export default _default;
 //# sourceMappingURL=drawing-canvas.d.ts.map

@@ -1,4 +1,4 @@
-import type { ImageFormat, SkImage, SkPath } from '@shopify/react-native-skia';
+import type { ImageFormat, SkImage } from '@shopify/react-native-skia';
 import type { StyleProp, ViewStyle } from 'react-native';
 import type { SharedValue } from 'react-native-reanimated';
 
@@ -32,6 +32,9 @@ export type CanvasContextType = {
 export type FreeCanvasRef = {
   reset: () => void;
   undo: () => void;
-  toBase64: (fmt?: ImageFormat, quality?: number) => Promise<string | undefined>;
+  toBase64: (
+    fmt?: ImageFormat,
+    quality?: number,
+  ) => Promise<string | undefined>;
   getSnapshot: () => Promise<SkImage | undefined> | undefined;
-}
+};

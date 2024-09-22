@@ -1,9 +1,11 @@
+import { SkiaDomView } from '@shopify/react-native-skia';
+import { SharedValue } from 'react-native-reanimated';
 import React from 'react';
-import { DrawingPath } from './types';
 type DrawingCanvasProps = {
     foreground?: React.ReactNode;
-    drawingPath?: DrawingPath;
+    strokeColor: string | SharedValue<string>;
+    strokeWidth: number | SharedValue<number>;
 };
-declare const DrawingCanvas: React.FC<DrawingCanvasProps>;
-export default DrawingCanvas;
+declare const _default: React.MemoExoticComponent<React.ForwardRefExoticComponent<DrawingCanvasProps & React.RefAttributes<SkiaDomView>>>;
+export default _default;
 //# sourceMappingURL=drawing-canvas.d.ts.map
