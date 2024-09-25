@@ -1,6 +1,6 @@
 {
   "name": "react-native-free-canvas",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "scripts": {
     "build": "bob build"
   },
@@ -17,7 +17,6 @@
     "@react-native/metro-config": "0.75.2",
     "@react-native/typescript-config": "0.75.2",
     "eslint": "9.9.1",
-    "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-jsx-a11y": "^6.9.0",
