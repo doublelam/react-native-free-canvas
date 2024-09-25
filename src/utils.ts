@@ -13,19 +13,19 @@ const TIMEOUT_ID = makeMutable(0);
 
 export type AnimatedTimeoutID = number;
 
-function removeFromPendingTimeouts(id: AnimatedTimeoutID): void {
+const removeFromPendingTimeouts = (id: AnimatedTimeoutID) => {
   'worklet';
   PENDING_TIMEOUTS.modify(pendingTimeouts => {
     'worklet';
     delete pendingTimeouts[id];
     return pendingTimeouts;
   });
-}
+};
 
-export function setAnimatedTimeout<F extends () => void>(
+export const setAnimatedTimeout = <F extends () => void>(
   callback: F,
   delay: number,
-): AnimatedTimeoutID {
+): AnimatedTimeoutID => {
   'worklet';
   let startTimestamp: number;
 
@@ -51,12 +51,12 @@ export function setAnimatedTimeout<F extends () => void>(
   requestAnimationFrame(step);
 
   return currentId;
-}
+};
 
-export function clearAnimatedTimeout(handle: AnimatedTimeoutID): void {
+export const clearAnimatedTimeout = (handle: AnimatedTimeoutID) => {
   'worklet';
   removeFromPendingTimeouts(handle);
-}
+};
 
 const ImageFormatMap = {
   [ImageFormat.JPEG]: 'jpg',
@@ -64,10 +64,7 @@ const ImageFormatMap = {
   [ImageFormat.WEBP]: 'webp',
 };
 
-export const fillBase64 = (
-  type: ImageFormat,
-  base64Rest: string,
-): string => {
+export const fillBase64 = (type: ImageFormat, base64Rest: string): string => {
   const prefix = `data:image/${ImageFormatMap[type]};base64,`;
   return `${prefix}${base64Rest}`;
 };

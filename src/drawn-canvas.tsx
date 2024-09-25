@@ -1,6 +1,16 @@
-import { Canvas, DiscretePathEffect, Path, Rect, SkiaDomView, SkSize } from '@shopify/react-native-skia';
+import {
+  Canvas,
+  Path,
+  Rect,
+  SkiaDomView,
+  SkSize,
+} from '@shopify/react-native-skia';
 import styles from './styles';
-import { SharedValue, useDerivedValue, useSharedValue } from 'react-native-reanimated';
+import {
+  SharedValue,
+  useDerivedValue,
+  useSharedValue,
+} from 'react-native-reanimated';
 import React, { forwardRef, RefObject, useContext } from 'react';
 import CanvasContext from './canvas-context';
 
@@ -9,50 +19,54 @@ type DrawnCanvasProps = {
   background?: React.ReactNode;
 };
 
-const DrawnCanvas = forwardRef<SkiaDomView, DrawnCanvasProps>(({
-  background,
-  backgroundColor,
-}, ref) => {
-  const sizeSharedValue: SharedValue<SkSize> = useSharedValue({
-    width: 0,
-    height: 0,
-  });
+const DrawnCanvas = forwardRef<SkiaDomView, DrawnCanvasProps>(
+  ({ background, backgroundColor }, ref) => {
+    const sizeSharedValue: SharedValue<SkSize> = useSharedValue({
+      width: 0,
+      height: 0,
+    });
 
-  const derivedWidth = useDerivedValue(() => sizeSharedValue.value.width, []);
-  const derivedHeight = useDerivedValue(() => sizeSharedValue.value.height, []);
+    const derivedWidth = useDerivedValue(() => sizeSharedValue.value.width, []);
+    const derivedHeight = useDerivedValue(
+      () => sizeSharedValue.value.height,
+      [],
+    );
 
-  const context = useContext(CanvasContext);
-  return (
-    <Canvas ref={ref as RefObject<SkiaDomView>} style={styles.canvas} onSize={sizeSharedValue}>
-      {/* For render backgroundColor */}
-      {backgroundColor ? (
-        <Rect
-          x={0}
-          y={0}
-          width={derivedWidth}
-          height={derivedHeight}
-          color={backgroundColor}
-        />
-      ) : null}
-      {/* For render background */}
-      {background}
+    const context = useContext(CanvasContext);
+    return (
+      <Canvas
+        ref={ref as RefObject<SkiaDomView>}
+        style={styles.canvas}
+        onSize={sizeSharedValue}
+      >
+        {/* For render backgroundColor */}
+        {backgroundColor ? (
+          <Rect
+            x={0}
+            y={0}
+            width={derivedWidth}
+            height={derivedHeight}
+            color={backgroundColor}
+          />
+        ) : null}
+        {/* For render background */}
+        {background}
 
-      {/* Drawn paths */}
-      {
-        context?.drawnPaths.map((path, index) => (
+        {/* Drawn paths */}
+        {context?.drawnPaths.map((path, index) => (
           <Path
             key={index}
             style="stroke"
-            path={path.path} 
-            strokeWidth={path.strokeWidth} 
+            path={path.path}
+            strokeWidth={path.strokeWidth}
             strokeJoin="round"
             strokeCap="round"
-            color={path.strokeColor} 
+            color={path.strokeColor}
           />
-        ))
-      }
-    </Canvas>
-  );
-});
+        ))}
+      </Canvas>
+    );
+  },
+);
 
 export default DrawnCanvas;

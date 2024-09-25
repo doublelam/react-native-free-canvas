@@ -85,7 +85,7 @@ const DrawingCanvas = forwardRef<SkiaDomView, DrawingCanvasProps>(
               return v;
             });
           })
-          .onFinalize(e => {
+          .onFinalize(() => {
             'worklet';
 
             runOnJS(changeDrawing)(true);
