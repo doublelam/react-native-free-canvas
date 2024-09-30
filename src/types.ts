@@ -37,4 +37,6 @@ export type FreeCanvasRef = {
     quality?: number,
   ) => Promise<string | undefined>;
   getSnapshot: () => Promise<SkImage | undefined> | undefined;
+  getPaths: () => DrawnPath[];
+  drawPaths: (paths: DrawnPath[]) => void;
 };

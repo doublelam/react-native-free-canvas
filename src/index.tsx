@@ -69,6 +69,14 @@ const FreeCanvas = forwardRef<FreeCanvasRef, FreeCanvasProps>(
       return drawnRef.current?.makeImageSnapshotAsync();
     }, []);
 
+    const drawPaths = useCallback((paths: DrawnPath[]) => {
+      setDrawnPaths(paths)
+    }, []);
+
+    const getPaths = useCallback(() => {
+      return drawnPaths;
+    }, [drawnPaths]);
+
     const toBase64 = useCallback(
       async (fmt: ImageFormat = ImageFormat.PNG, quality: number = 80) => {
         const snapshot = await getSnapshot();
@@ -87,6 +95,8 @@ const FreeCanvas = forwardRef<FreeCanvasRef, FreeCanvasProps>(
         reset,
         getSnapshot,
         toBase64,
+        drawPaths,
+        getPaths,
       }),
       [undo, reset, getSnapshot, toBase64],
     );
