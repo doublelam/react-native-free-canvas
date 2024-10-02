@@ -35,9 +35,11 @@ const App = () => {
 - style?: StyleProp<ViewStyle>;
 - strokeColor?: string | SharedValue<string>;
 - strokeWidth?: number | SharedValue<number>;
-- backgroundColor?: string;
+- backgroundColor?: string | SharedValue<string>;;
 - background?: React.ReactNode;
 - foreground?: React.ReactNode;
+- zoomable?: boolean;
+- onDrawEnd?: () => void;
 
 ## Methods
 

@@ -15,7 +15,7 @@ import React, { forwardRef, RefObject, useContext } from 'react';
 import CanvasContext from './canvas-context';
 
 type DrawnCanvasProps = {
-  backgroundColor?: string;
+  backgroundColor?: string | SharedValue<string>;
   background?: React.ReactNode;
 };
 
