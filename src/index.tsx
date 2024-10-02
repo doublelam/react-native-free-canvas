@@ -8,7 +8,11 @@ import React, {
 } from 'react';
 import { ImageFormat, useCanvasRef } from '@shopify/react-native-skia';
 import { View } from 'react-native';
-import Animated, { interpolate, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import styles from './styles';
 import DrawnCanvas from './drawn-canvas';
@@ -42,7 +46,7 @@ const FreeCanvas = forwardRef<FreeCanvasRef, FreeCanvasProps>(
     const originSharedVal = useSharedValue([0, 0]);
     const scaleSharedVal = useSharedValue(1);
     const scaledStyle = useAnimatedStyle(() => ({
-      transform: [{scale: scaleSharedVal.value}],
+      transform: [{ scale: scaleSharedVal.value }],
       transformOrigin: originSharedVal.value.concat([0]),
     }));
     const providerVal = useMemo(
@@ -58,12 +62,14 @@ const FreeCanvas = forwardRef<FreeCanvasRef, FreeCanvasProps>(
           'worklet';
 
           const resScale = scale * scaleSharedVal.value;
-          if (resScale < 0.5 || resScale > 2 ) {
+          if (resScale < 0.5 || resScale > 2) {
             return;
           }
           scaleSharedVal.value = resScale;
-          originSharedVal.value = withTiming([x < 0 ? -x : x, y < 0 ? -y : y], { duration: 200 });
-        }
+          originSharedVal.value = withTiming([x < 0 ? -x : x, y < 0 ? -y : y], {
+            duration: 200,
+          });
+        },
       }),
       [drawnPaths],
     );
@@ -88,7 +94,7 @@ const FreeCanvas = forwardRef<FreeCanvasRef, FreeCanvasProps>(
     }, []);
 
     const drawPaths = useCallback((paths: DrawnPath[]) => {
-      setDrawnPaths(paths)
+      setDrawnPaths(paths);
     }, []);
 
     const getPaths = useCallback(() => {

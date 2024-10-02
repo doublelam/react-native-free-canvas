@@ -5,7 +5,9 @@ import { makeMutable } from 'react-native-reanimated';
 export const getSharedValue = <T>(val: T | SharedValue<T>) => {
   'worklet';
 
-  return val && typeof val === 'object' && 'value' in val ? val.value : val;
+  return (
+    val && typeof val === 'object' && 'value' in val ? val.value : val
+  ) as T;
 };
 
 const PENDING_TIMEOUTS = makeMutable<Record<string, boolean>>({});
