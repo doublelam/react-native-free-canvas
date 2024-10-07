@@ -14,6 +14,7 @@ export type FreeCanvasProps = {
 };
 
 export type DrawnPath = {
+  key: string;
   path: string;
   strokeColor: string;
   strokeWidth: number;

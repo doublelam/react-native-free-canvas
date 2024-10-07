@@ -1,6 +1,5 @@
 import { ImageFormat } from '@shopify/react-native-skia';
-import { SharedValue } from 'react-native-reanimated';
-import { makeMutable } from 'react-native-reanimated';
+import { SharedValue, makeMutable } from 'react-native-reanimated';
 
 export const getSharedValue = <T>(val: T | SharedValue<T>) => {
   'worklet';
@@ -69,4 +68,10 @@ const ImageFormatMap = {
 export const fillBase64 = (type: ImageFormat, base64Rest: string): string => {
   const prefix = `data:image/${ImageFormatMap[type]};base64,`;
   return `${prefix}${base64Rest}`;
+};
+
+export const genUniqueKey = () => {
+  'worklet';
+  // random number - timestamps - random number
+  return `${(Math.random() * 1000000).toFixed()}-${Date.now()}-${(Math.random() * 1000000).toFixed()}`;
 };

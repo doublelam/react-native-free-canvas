@@ -20,6 +20,7 @@ import { View } from 'react-native';
 import CanvasContext from './canvas-context';
 import {
   clearAnimatedTimeout,
+  genUniqueKey,
   getSharedValue,
   setAnimatedTimeout,
 } from './utils';
@@ -60,7 +61,7 @@ const DrawingCanvas = forwardRef<SkiaDomView, DrawingCanvasProps>(
       [strokeWidth, strokeColor],
     );
 
-    const setDrawn = useCallback((path: DrawnPath) => {
+    const addDrawn = useCallback((path: DrawnPath) => {
       context?.addDrawnPath(path);
     }, []);
 
@@ -120,7 +121,8 @@ const DrawingCanvas = forwardRef<SkiaDomView, DrawingCanvasProps>(
             'worklet';
 
             runOnJS(changeDrawing)(true);
-            runOnJS(setDrawn)({
+            runOnJS(addDrawn)({
+              key: genUniqueKey(),
               strokeWidth: getSharedValue(strokeWidth),
               strokeColor: getSharedValue(strokeColor),
               path: getSharedValue(derivedPathSharedVal),
@@ -138,7 +140,7 @@ const DrawingCanvas = forwardRef<SkiaDomView, DrawingCanvasProps>(
               }
             }, 300);
           }),
-      [],
+      [strokeWidth, strokeColor],
     );
 
     const composedGesture = Gesture.Simultaneous(panGesture, pinchGesture);

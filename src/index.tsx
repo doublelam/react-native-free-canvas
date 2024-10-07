@@ -24,7 +24,6 @@ import type {
 } from './types';
 import DrawingCanvas from './drawing-canvas';
 import CanvasContext from './canvas-context';
-import { fillBase64 } from './utils';
 
 const FreeCanvas = forwardRef<FreeCanvasRef, FreeCanvasProps>(
   (
@@ -107,7 +106,7 @@ const FreeCanvas = forwardRef<FreeCanvasRef, FreeCanvasProps>(
         if (!snapshot) {
           return;
         }
-        return fillBase64(fmt, snapshot.encodeToBase64(fmt, quality));
+        return snapshot.encodeToBase64(fmt, quality);
       },
       [getSnapshot],
     );
