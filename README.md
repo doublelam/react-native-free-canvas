@@ -50,3 +50,4 @@ const App = () => {
   quality?: number,
 ) => Promise<string | undefined>;
 - getSnapshot: () => Promise<SkImage | undefined> | undefined;
+- drawPaths: (paths: DrawnPath[]) => void;
