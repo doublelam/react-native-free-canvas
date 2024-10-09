@@ -1,11 +1,16 @@
 {
   "name": "react-native-free-canvas",
   "version": "1.0.4",
+  "description": "A high-performance drawing and sketching library for React Native, built on @shopify/react-native-skia, with smooth zoom and pan functionalities.",
   "scripts": {
     "build": "bob build"
   },
   "source": "./src/index.tsx",
   "main": "./lib/commonjs/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/doublelam/react-native-free-canvas"
+  },
   "devDependencies": {
     "@eslint/compat": "^1.1.1",
     "@react-native/babel-preset": "0.75.2",
