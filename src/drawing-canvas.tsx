@@ -16,6 +16,7 @@ import React, {
   useCallback,
   useContext,
   useMemo,
+  useState,
 } from 'react';
 import { DrawnPath } from './types';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
@@ -31,12 +32,14 @@ type DrawingCanvasProps = {
   foreground?: React.ReactNode;
   strokeColor: string | SharedValue<string>;
   strokeWidth: number | SharedValue<number>;
+  zoomable?: boolean;
+  onDrawEnd?: () => void;
 };
 
 const DrawingCanvas = forwardRef<SkiaDomView, DrawingCanvasProps>(
-  ({ foreground, strokeColor, strokeWidth }, ref) => {
+  ({ foreground, strokeColor, strokeWidth, zoomable = false, onDrawEnd }, ref) => {
     const pathSharedVal = useSharedValue(Skia.Path.Make());
-    const viewRef = useAnimatedRef<React.Component>();
+    const sizeSharedVal = useSharedValue({width: 0, height: 0});
     const animatedTimeout = useSharedValue(0);
     const derivedPathSharedVal = useDerivedValue(
       () => pathSharedVal.value.toSVGString(),
@@ -62,32 +65,53 @@ const DrawingCanvas = forwardRef<SkiaDomView, DrawingCanvasProps>(
       context?.addDrawnPath(path);
     }, []);
 
-    const panGesture = useMemo(
+    const pinchGesture = useMemo(
+      () => Gesture.Pinch()
+        .enabled(zoomable)
+        .onStart(() => {
+          // runOnJS(setZooming)(true);
+        })
+        .onUpdate(e => {
+          if (e.focalX < 0 || e.focalY < 0 || e.focalX > sizeSharedVal.value.width || e.focalY > sizeSharedVal.value.height) {
+            return;
+          }
+          context?.setScale(e.focalX, e.focalY, e.scale);
+        })
+        .onFinalize(() => {
+          // runOnJS(setZooming)(false)
+        }), [zoomable]);
+
+      const panGesture = useMemo(
       () =>
         Gesture.Pan()
-          .onBegin(e => {
+          .maxPointers(1)
+          .onStart(e => {
             'worklet';
-            const coords = getRelativeCoords(viewRef, e.absoluteX, e.absoluteY);
+
+            if (e.numberOfPointers > 1) {
+              return;
+            }
+            const touch  = e;
             clearAnimatedTimeout(animatedTimeout.value);
             pathSharedVal.modify(v => {
               v.reset();
-              v.moveTo(coords?.x || 0, coords?.y || 0);
-              v.lineTo(coords?.x || 0, coords?.y || 0);
+              v.moveTo(touch.x|| 0, touch.y || 0);
+              v.lineTo(touch.x || 0, touch.y || 0);
               return v;
             });
             runOnJS(changeDrawing)(false);
-            console.log(e.absoluteX);
           })
           .onUpdate(e => {
             'worklet';
-            const coords = getRelativeCoords(viewRef, e.absoluteX, e.absoluteY);
+
             pathSharedVal.modify(v => {
-              v.lineTo(coords?.x || 0, coords?.y || 0);
+              v.lineTo(e.x || 0, e.y || 0);
               return v;
             });
           })
-          .onFinalize(() => {
+          .onFinalize((e) => {
             'worklet';
+        
             runOnJS(changeDrawing)(true);
             runOnJS(setDrawn)({
               strokeWidth: getSharedValue(strokeWidth),
@@ -96,19 +120,26 @@ const DrawingCanvas = forwardRef<SkiaDomView, DrawingCanvasProps>(
             });
 
             animatedTimeout.value = setAnimatedTimeout(() => {
+              'worklet';
+
               pathSharedVal.modify(v => {
                 v.reset();
                 return v;
               });
+              if (onDrawEnd) {
+                runOnJS(onDrawEnd)(); 
+              }
             }, 300);
           }),
       [],
     );
 
+    const composedGesture = Gesture.Simultaneous(panGesture, pinchGesture);
+
     return (
-      <GestureDetector gesture={panGesture}>
-        <View ref={viewRef as any} style={styles.canvas}>
-          <Canvas ref={ref as RefObject<SkiaDomView>} style={{ flex: 1 }}>
+      <GestureDetector gesture={composedGesture}>
+        <View style={styles.canvas}>
+          <Canvas onSize={sizeSharedVal} ref={ref as RefObject<SkiaDomView>} style={{ flex: 1 }}>
             {/* Drawing path */}
             <Path
               path={derivedPathSharedVal}

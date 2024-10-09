@@ -8,7 +8,7 @@ import React, {
 } from 'react';
 import { ImageFormat, useCanvasRef } from '@shopify/react-native-skia';
 import { View } from 'react-native';
-import Animated from 'react-native-reanimated';
+import Animated, { interpolate, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import styles from './styles';
 import DrawnCanvas from './drawn-canvas';
@@ -30,6 +30,8 @@ const FreeCanvas = forwardRef<FreeCanvasRef, FreeCanvasProps>(
       backgroundColor,
       strokeColor = 'black',
       strokeWidth = 10,
+      zoomable,
+      onDrawEnd,
     },
     ref,
   ) => {
@@ -37,6 +39,12 @@ const FreeCanvas = forwardRef<FreeCanvasRef, FreeCanvasProps>(
     const [, setDrawingPath] = useState<DrawingPath | null>(null);
     const drawRef = useCanvasRef();
     const drawnRef = useCanvasRef();
+    const originSharedVal = useSharedValue([0, 0]);
+    const scaleSharedVal = useSharedValue(1);
+    const scaledStyle = useAnimatedStyle(() => ({
+      transform: [{scale: scaleSharedVal.value}],
+      transformOrigin: originSharedVal.value.concat([0]),
+    }));
     const providerVal = useMemo(
       () => ({
         addDrawnPath: (path: DrawnPath) => {
@@ -46,6 +54,16 @@ const FreeCanvas = forwardRef<FreeCanvasRef, FreeCanvasProps>(
           setDrawingPath(path);
         },
         drawnPaths,
+        setScale: (x: number, y: number, scale: number) => {
+          'worklet';
+
+          const resScale = scale * scaleSharedVal.value;
+          if (resScale < 0.5 || resScale > 2 ) {
+            return;
+          }
+          scaleSharedVal.value = resScale;
+          originSharedVal.value = withTiming([x < 0 ? -x : x, y < 0 ? -y : y], { duration: 200 });
+        }
       }),
       [drawnPaths],
     );
@@ -104,7 +122,7 @@ const FreeCanvas = forwardRef<FreeCanvasRef, FreeCanvasProps>(
     return (
       <CanvasContext.Provider value={providerVal}>
         <View style={[style]}>
-          <Animated.View style={[styles.flex1]}>
+          <Animated.View style={[styles.flex1, scaledStyle]}>
             <GestureHandlerRootView style={styles.flex1}>
               {/* Drawn canvas */}
               <DrawnCanvas
@@ -116,6 +134,8 @@ const FreeCanvas = forwardRef<FreeCanvasRef, FreeCanvasProps>(
               {/* Drawing canvas */}
               <DrawingCanvas
                 ref={drawRef}
+                onDrawEnd={onDrawEnd}
+                zoomable={zoomable}
                 strokeColor={strokeColor}
                 strokeWidth={strokeWidth}
               />
