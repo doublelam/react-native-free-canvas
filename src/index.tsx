@@ -12,7 +12,7 @@ import Animated from 'react-native-reanimated';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import styles from './styles';
 import DrawnCanvas from './drawn-canvas';
-import {
+import type {
   DrawingPath,
   DrawnPath,
   FreeCanvasProps,
@@ -20,6 +20,7 @@ import {
 } from './types';
 import DrawingCanvas from './drawing-canvas';
 import CanvasContext from './canvas-context';
+import { fillBase64 } from './utils';
 
 const FreeCanvas = forwardRef<FreeCanvasRef, FreeCanvasProps>(
   (
@@ -68,13 +69,20 @@ const FreeCanvas = forwardRef<FreeCanvasRef, FreeCanvasProps>(
       return drawnRef.current?.makeImageSnapshotAsync();
     }, []);
 
+    const toBase64 = useCallback(async (fmt: ImageFormat = ImageFormat.PNG, quality: number = 80) => {
+      const snapshot = await getSnapshot();
+      if (!snapshot) {
+        return;
+      }
+      return fillBase64(fmt, snapshot.encodeToBase64(fmt, quality));
+    }, [getSnapshot]);
+
     useImperativeHandle(ref, () => ({
       undo,
       reset,
       getSnapshot,
-      toBase64: async (fmt?: ImageFormat, quality?: number) =>
-        (await getSnapshot())?.encodeToBase64(fmt, quality),
-    }));
+      toBase64,
+    }), [undo, reset, getSnapshot, toBase64]);
 
     return (
       <CanvasContext.Provider value={providerVal}>
@@ -103,3 +111,13 @@ const FreeCanvas = forwardRef<FreeCanvasRef, FreeCanvasProps>(
 );
 
 export default memo(FreeCanvas);
+
+export {
+  FreeCanvas,
+};
+
+export type {
+  FreeCanvasProps,
+  DrawnPath,
+  FreeCanvasRef,
+}

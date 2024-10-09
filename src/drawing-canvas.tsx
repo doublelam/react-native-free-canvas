@@ -2,7 +2,6 @@
 import { Canvas, Path, Skia, SkiaDomView } from '@shopify/react-native-skia';
 import styles from './styles';
 import {
-  AnimatedRef,
   getRelativeCoords,
   runOnJS,
   SharedValue,
@@ -101,9 +100,7 @@ const DrawingCanvas = forwardRef<SkiaDomView, DrawingCanvasProps>(
                 v.reset();
                 return v;
               });
-            }, 1000);
-
-            console.log(e.absoluteX);
+            }, 300);
           }),
       [],
     );

@@ -1,3 +1,4 @@
+import { ImageFormat } from '@shopify/react-native-skia';
 import { SharedValue } from 'react-native-reanimated';
 import { makeMutable } from 'react-native-reanimated';
 
@@ -56,3 +57,17 @@ export function clearAnimatedTimeout(handle: AnimatedTimeoutID): void {
   'worklet';
   removeFromPendingTimeouts(handle);
 }
+
+const ImageFormatMap = {
+  [ImageFormat.JPEG]: 'jpg',
+  [ImageFormat.PNG]: 'png',
+  [ImageFormat.WEBP]: 'webp',
+};
+
+export const fillBase64 = (
+  type: ImageFormat,
+  base64Rest: string,
+): string => {
+  const prefix = `data:image/${ImageFormatMap[type]};base64,`;
+  return `${prefix}${base64Rest}`;
+};
