@@ -2,9 +2,6 @@
 Free sketch on canvas base on  @shopify/react-native-skia
 
 
-https://github.com/user-attachments/assets/3f1801ea-42b9-460d-a361-278217604f07
-
-
 
 
 ## Properties
