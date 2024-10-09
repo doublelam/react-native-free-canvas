@@ -1,6 +1,10 @@
 # rn-free-canvas
 Free sketch on canvas base on  @shopify/react-native-skia
 
+![ezgif-4-3968c99ec1](https://github.com/user-attachments/assets/9b3669f7-9c01-4208-9b35-a55c31741758)
+
+
+
 ## Properties
 
 - style?: StyleProp<ViewStyle>;
