@@ -34,7 +34,7 @@ export type FreeCanvasRef = {
     undo: () => void;
     toBase64: (fmt?: ImageFormat, quality?: number) => Promise<string | undefined>;
     getSnapshot: () => Promise<SkImage | undefined> | undefined;
-    getPaths: () => DrawnPath[];
+    toPaths: () => DrawnPath[];
     drawPaths: (paths: DrawnPath[]) => void;
 };
 //# sourceMappingURL=types.d.ts.map

@@ -47,7 +47,7 @@ const FreeCanvas = forwardRef<FreeCanvasRef, FreeCanvasProps>(
     const translateSharedVal = useSharedValue({ x: 0, y: 0 });
     const scaledStyle = useAnimatedStyle(() => ({
       transform: [
-        { scale: scaleSharedVal.value }, 
+        { scale: scaleSharedVal.value },
         { translateX: translateSharedVal.value.x },
         { translateY: translateSharedVal.value.y },
       ],
@@ -76,9 +76,12 @@ const FreeCanvas = forwardRef<FreeCanvasRef, FreeCanvasProps>(
         },
         setTranslate: (x: number, y: number) => {
           'worklet';
-          console.log('setTranslate', x, y, translateSharedVal.value); 
-          translateSharedVal.value = { x: translateSharedVal.value.x + x, y: translateSharedVal.value.y + y};
-        }
+          console.log('setTranslate', x, y, translateSharedVal.value);
+          translateSharedVal.value = {
+            x: translateSharedVal.value.x + x,
+            y: translateSharedVal.value.y + y,
+          };
+        },
       }),
       [drawnPaths],
     );
@@ -106,7 +109,7 @@ const FreeCanvas = forwardRef<FreeCanvasRef, FreeCanvasProps>(
       setDrawnPaths(paths);
     }, []);
 
-    const getPaths = useCallback(() => {
+    const toPaths = useCallback(() => {
       return drawnPaths;
     }, [drawnPaths]);
 
@@ -129,9 +132,9 @@ const FreeCanvas = forwardRef<FreeCanvasRef, FreeCanvasProps>(
         getSnapshot,
         toBase64,
         drawPaths,
-        getPaths,
+        toPaths,
       }),
-      [undo, reset, getSnapshot, toBase64],
+      [undo, reset, getSnapshot, toBase64, toPaths],
     );
 
     return (
@@ -163,7 +166,5 @@ const FreeCanvas = forwardRef<FreeCanvasRef, FreeCanvasProps>(
 );
 
 export default memo(FreeCanvas);
-
-export { FreeCanvas };
 
 export type { FreeCanvasProps, DrawnPath, FreeCanvasRef };

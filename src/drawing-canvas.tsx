@@ -101,9 +101,9 @@ const DrawingCanvas = forwardRef<SkiaDomView, DrawingCanvasProps>(
           .averageTouches(true)
           .onStart(e => {
             'worklet';
-            
+
             const touch = e;
-            if (zoomingSharedVal.value || e.numberOfPointers > 1){
+            if (zoomingSharedVal.value || e.numberOfPointers > 1) {
               return;
             }
             clearAnimatedTimeout(animatedTimeout.value);
@@ -119,10 +119,7 @@ const DrawingCanvas = forwardRef<SkiaDomView, DrawingCanvasProps>(
             'worklet';
 
             if (e.numberOfPointers > 1 && zoomable) {
-              context?.setTranslate(
-                e.translationX,
-                e.translationY,
-              );
+              context?.setTranslate(e.translationX, e.translationY);
               return;
             }
             if (pathSharedVal.value.isEmpty()) {
@@ -133,10 +130,14 @@ const DrawingCanvas = forwardRef<SkiaDomView, DrawingCanvasProps>(
               return v;
             });
           })
-          .onFinalize((e) => {
+          .onFinalize(e => {
             'worklet';
 
-            if (zoomingSharedVal.value || e.numberOfPointers > 1 || pathSharedVal.value.isEmpty()){
+            if (
+              zoomingSharedVal.value ||
+              e.numberOfPointers > 1 ||
+              pathSharedVal.value.isEmpty()
+            ) {
               return;
             }
             runOnJS(changeDrawing)(true);
