@@ -6261,6 +6261,11 @@ react-native-reanimated@3.15.1:
     convert-source-map "^2.0.0"
     invariant "^2.2.4"
 
+react-native-uuid@2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/react-native-uuid/-/react-native-uuid-2.0.2.tgz#3da192e342ef35ee95a7def676ab41c1256dfd66"
+  integrity sha512-5ypj/hV58P+6VREdjkW0EudSibsH3WdqDERoHKnD9syFWjF+NfRWWrJb2sa3LIwI5zpzMvUiabs+DX40WHpEMw==
+
 react-native@0.75.2:
   version "0.75.2"
   resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.75.2.tgz#12d7e3e63c8ab93dcab7a6d4c4c9f4ad199141d4"
