@@ -1,6 +1,20 @@
 # react-native-free-canvas
 Free sketch on canvas base on  @shopify/react-native-skia
 
+## Usage
+```ts
+import FreeCanvas from 'react-native-free-canvas';
+
+const App = () => {
+  return (
+    <>
+      <FreeCanvas style={{flex: 1}} />
+    </>
+  )
+};
+
+```
+
 
 
 
