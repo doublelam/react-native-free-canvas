@@ -1,0 +1,1 @@
+{"version":3,"names":["createContext","CanvasContext"],"sourceRoot":"../../src","sources":["canvas-context.ts"],"mappings":";;AAAA,SAASA,aAAa,QAAQ,OAAO;AAErC,MAAMC,aAAa,gBAAGD,aAAa,CAAoB,IAAI,CAAC;AAC5D,eAAeC,aAAa","ignoreList":[]}
