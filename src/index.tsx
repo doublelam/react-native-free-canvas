@@ -69,20 +69,27 @@ const FreeCanvas = forwardRef<FreeCanvasRef, FreeCanvasProps>(
       return drawnRef.current?.makeImageSnapshotAsync();
     }, []);
 
-    const toBase64 = useCallback(async (fmt: ImageFormat = ImageFormat.PNG, quality: number = 80) => {
-      const snapshot = await getSnapshot();
-      if (!snapshot) {
-        return;
-      }
-      return fillBase64(fmt, snapshot.encodeToBase64(fmt, quality));
-    }, [getSnapshot]);
+    const toBase64 = useCallback(
+      async (fmt: ImageFormat = ImageFormat.PNG, quality: number = 80) => {
+        const snapshot = await getSnapshot();
+        if (!snapshot) {
+          return;
+        }
+        return fillBase64(fmt, snapshot.encodeToBase64(fmt, quality));
+      },
+      [getSnapshot],
+    );
 
-    useImperativeHandle(ref, () => ({
-      undo,
-      reset,
-      getSnapshot,
-      toBase64,
-    }), [undo, reset, getSnapshot, toBase64]);
+    useImperativeHandle(
+      ref,
+      () => ({
+        undo,
+        reset,
+        getSnapshot,
+        toBase64,
+      }),
+      [undo, reset, getSnapshot, toBase64],
+    );
 
     return (
       <CanvasContext.Provider value={providerVal}>
@@ -112,12 +119,6 @@ const FreeCanvas = forwardRef<FreeCanvasRef, FreeCanvasProps>(
 
 export default memo(FreeCanvas);
 
-export {
-  FreeCanvas,
-};
+export { FreeCanvas };
 
-export type {
-  FreeCanvasProps,
-  DrawnPath,
-  FreeCanvasRef,
-}
+export type { FreeCanvasProps, DrawnPath, FreeCanvasRef };
