@@ -41,6 +41,7 @@ const DrawingCanvas = forwardRef<SkiaDomView, DrawingCanvasProps>(
     const pathSharedVal = useSharedValue(Skia.Path.Make());
     const sizeSharedVal = useSharedValue({ width: 0, height: 0 });
     const animatedTimeout = useSharedValue(0);
+    const zoomingSharedVal = useSharedValue(false);
     const derivedPathSharedVal = useDerivedValue(
       () => pathSharedVal.value.toSVGString(),
       [],
@@ -70,6 +71,7 @@ const DrawingCanvas = forwardRef<SkiaDomView, DrawingCanvasProps>(
         Gesture.Pinch()
           .enabled(zoomable)
           .onStart(() => {
+            zoomingSharedVal.value = true;
             // runOnJS(setZooming)(true);
           })
           .onUpdate(e => {
@@ -81,9 +83,11 @@ const DrawingCanvas = forwardRef<SkiaDomView, DrawingCanvasProps>(
             ) {
               return;
             }
+            zoomingSharedVal.value = true;
             context?.setScale(e.focalX, e.focalY, e.scale);
           })
           .onFinalize(() => {
+            zoomingSharedVal.value = false;
             // runOnJS(setZooming)(false)
           }),
       [zoomable],
@@ -92,14 +96,16 @@ const DrawingCanvas = forwardRef<SkiaDomView, DrawingCanvasProps>(
     const panGesture = useMemo(
       () =>
         Gesture.Pan()
-          .maxPointers(1)
+          // will allow move canvas by 2-finger panning
+          // .maxPointers(1)
+          .averageTouches(true)
           .onStart(e => {
             'worklet';
-
-            if (e.numberOfPointers > 1) {
+            
+            const touch = e;
+            if (zoomingSharedVal.value || e.numberOfPointers > 1){
               return;
             }
-            const touch = e;
             clearAnimatedTimeout(animatedTimeout.value);
             pathSharedVal.modify(v => {
               v.reset();
@@ -112,14 +118,27 @@ const DrawingCanvas = forwardRef<SkiaDomView, DrawingCanvasProps>(
           .onUpdate(e => {
             'worklet';
 
+            if (e.numberOfPointers > 1 && zoomable) {
+              context?.setTranslate(
+                e.translationX,
+                e.translationY,
+              );
+              return;
+            }
+            if (pathSharedVal.value.isEmpty()) {
+              return;
+            }
             pathSharedVal.modify(v => {
               v.lineTo(e.x || 0, e.y || 0);
               return v;
             });
           })
-          .onFinalize(() => {
+          .onFinalize((e) => {
             'worklet';
 
+            if (zoomingSharedVal.value || e.numberOfPointers > 1 || pathSharedVal.value.isEmpty()){
+              return;
+            }
             runOnJS(changeDrawing)(true);
             runOnJS(addDrawn)({
               key: genUniqueKey(),

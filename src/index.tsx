@@ -44,8 +44,13 @@ const FreeCanvas = forwardRef<FreeCanvasRef, FreeCanvasProps>(
     const drawnRef = useCanvasRef();
     const originSharedVal = useSharedValue([0, 0]);
     const scaleSharedVal = useSharedValue(1);
+    const translateSharedVal = useSharedValue({ x: 0, y: 0 });
     const scaledStyle = useAnimatedStyle(() => ({
-      transform: [{ scale: scaleSharedVal.value }],
+      transform: [
+        { scale: scaleSharedVal.value }, 
+        { translateX: translateSharedVal.value.x },
+        { translateY: translateSharedVal.value.y },
+      ],
       transformOrigin: originSharedVal.value.concat([0]),
     }));
     const providerVal = useMemo(
@@ -69,6 +74,11 @@ const FreeCanvas = forwardRef<FreeCanvasRef, FreeCanvasProps>(
             duration: 200,
           });
         },
+        setTranslate: (x: number, y: number) => {
+          'worklet';
+          console.log('setTranslate', x, y, translateSharedVal.value); 
+          translateSharedVal.value = { x: translateSharedVal.value.x + x, y: translateSharedVal.value.y + y};
+        }
       }),
       [drawnPaths],
     );
