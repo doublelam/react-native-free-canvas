@@ -1,7 +1,8 @@
-import { Canvas, Rect, SkSize } from '@shopify/react-native-skia';
+import { Canvas, Path, Rect, SkSize } from '@shopify/react-native-skia';
 import styles from './styles';
 import { SharedValue, useSharedValue } from 'react-native-reanimated';
-import React from 'react';
+import React, { useContext } from 'react';
+import CanvasContext from './canvas-context';
 
 type DrawnCanvasProps = {
   backgroundColor?: string;
@@ -16,6 +17,8 @@ const DrawnCanvas: React.FC<DrawnCanvasProps> = ({
     width: 0,
     height: 0,
   });
+
+  const context = useContext(CanvasContext);
 
   return (
     <Canvas style={styles.canvas} onSize={sizeSharedValue}>
@@ -33,6 +36,17 @@ const DrawnCanvas: React.FC<DrawnCanvasProps> = ({
       {background}
 
       {/* Drawn paths */}
+      {
+        context?.drawnPaths.map((path, index) => (
+          <Path
+            key={index}
+            style="stroke"
+            path={path.path} 
+            strokeWidth={path.strokeWidth} 
+            color={path.strokeColor} 
+          />
+        ))
+      }
     </Canvas>
   );
 };

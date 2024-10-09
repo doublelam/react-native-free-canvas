@@ -4,8 +4,10 @@
   "scripts": {
     "build": "bob build"
   },
-  "source": "./src/index.tsx",
-  "main": "./lib/commonjs/index.js",
+  "source": "./src/index",
+  "main": "./src/index",
+  "module": "./lib/module/index.js",
+  "types": "./lib/typescript/commonjs/src/index.d.ts",
   "devDependencies": {
     "@eslint/compat": "^1.1.1",
     "@shopify/react-native-skia": "1.3.13",

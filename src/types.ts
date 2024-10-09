@@ -11,14 +11,20 @@ export type FreeCanvasProps = {
   foreground?: React.ReactNode;
 };
 
-export type DrownPath = {
+export type DrawnPath = {
   path: string;
   strokeColor: string;
   strokeWidth: number;
 };
 
 export type DrawingPath = {
-  path: SkPath;
+  path: SharedValue<string>;
   strokeColor: string;
   strokeWidth: number;
 };
+
+export type CanvasContextType = {
+  addDrawnPath: (path: DrawnPath) => void;
+  setDrawingPath: (path: DrawingPath | null) => void;
+  drawnPaths: DrawnPath[];
+} | null;
