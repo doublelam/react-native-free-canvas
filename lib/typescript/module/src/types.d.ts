@@ -12,6 +12,7 @@ export type FreeCanvasProps = {
     onDrawEnd?: () => void;
 };
 export type DrawnPath = {
+    key: string;
     path: string;
     strokeColor: string;
     strokeWidth: number;
@@ -26,6 +27,7 @@ export type CanvasContextType = {
     setDrawingPath: (path: DrawingPath | null) => void;
     drawnPaths: DrawnPath[];
     setScale: (x: number, y: number, scale: number) => void;
+    setTranslate: (x: number, y: number) => void;
 } | null;
 export type FreeCanvasRef = {
     reset: () => void;
