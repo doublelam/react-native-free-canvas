@@ -72,7 +72,7 @@ const DrawingCanvas = forwardRef<SkiaDomView, DrawingCanvasProps>(
             pathSharedVal.modify(v => {
               v.reset();
               v.moveTo(coords?.x || 0, coords?.y || 0);
-              v.lineTo(coords?.x || 0, coords?.y || 0)
+              v.lineTo(coords?.x || 0, coords?.y || 0);
               return v;
             });
             runOnJS(changeDrawing)(false);
