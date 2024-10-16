@@ -71,10 +71,14 @@ const DrawingCanvas = forwardRef<SkiaDomView, DrawingCanvasProps>(
         Gesture.Pinch()
           .enabled(zoomable)
           .onStart(() => {
+            'worklet';
+
             zoomingSharedVal.value = true;
             // runOnJS(setZooming)(true);
           })
           .onUpdate(e => {
+            'worklet';
+
             if (
               e.focalX < 0 ||
               e.focalY < 0 ||
@@ -87,6 +91,8 @@ const DrawingCanvas = forwardRef<SkiaDomView, DrawingCanvasProps>(
             context?.setScale(e.focalX, e.focalY, e.scale);
           })
           .onFinalize(() => {
+            'worklet';
+
             zoomingSharedVal.value = false;
             // runOnJS(setZooming)(false)
           }),
