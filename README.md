@@ -31,18 +31,19 @@ const App = () => {
 
 
 ## Properties
-
+```
 - style?: StyleProp<ViewStyle>;
 - strokeColor?: string | SharedValue<string>;
 - strokeWidth?: number | SharedValue<number>;
-- backgroundColor?: string | SharedValue<string>;;
-- background?: React.ReactNode;
-- foreground?: React.ReactNode;
+- backgroundColor?: string | SharedValue<string>;
+- background?: React.ReactNode; // Should be Skia component
+- foreground?: React.ReactNode; // Should be Skia component
 - zoomable?: boolean;
 - onDrawEnd?: () => void;
+```
 
 ## Methods
-
+```
 - reset: () => void;
 - undo: () => void;
 - toBase64: (
@@ -52,3 +53,7 @@ const App = () => {
 - getSnapshot: () => Promise<SkImage | undefined> | undefined;
 - toPaths: () => DrawnPath[];
 - drawPaths: (paths: DrawnPath[]) => void;
+```
+
+## Inspired By
+[wobsoriano/rn-perfect-sketch-canvas](https://github.com/wobsoriano/rn-perfect-sketch-canvas) A React Native component for drawing perfect pressure-sensitive freehand lines using perfect-freehand and Skia renderer.
