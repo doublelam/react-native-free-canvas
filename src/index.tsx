@@ -30,6 +30,7 @@ const FreeCanvas = forwardRef<FreeCanvasRef, FreeCanvasProps>(
     {
       style,
       background,
+      foreground,
       backgroundColor,
       strokeColor = 'black',
       strokeWidth = 10,
@@ -146,12 +147,14 @@ const FreeCanvas = forwardRef<FreeCanvasRef, FreeCanvasProps>(
               <DrawnCanvas
                 ref={drawnRef}
                 background={background}
+                foreground={foreground}
                 backgroundColor={backgroundColor}
               />
 
               {/* Drawing canvas */}
               <DrawingCanvas
                 ref={drawRef}
+                foreground={foreground}
                 onDrawEnd={onDrawEnd}
                 zoomable={zoomable}
                 strokeColor={strokeColor}

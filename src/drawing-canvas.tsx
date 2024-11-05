@@ -189,7 +189,7 @@ const DrawingCanvas = forwardRef<SkiaDomView, DrawingCanvasProps>(
               strokeCap="round"
             />
             {/* For render foreground */}
-            {foreground ? foreground : null}
+            {foreground}
           </Canvas>
         </View>
       </GestureDetector>

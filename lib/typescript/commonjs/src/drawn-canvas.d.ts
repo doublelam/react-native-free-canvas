@@ -4,6 +4,7 @@ import React from 'react';
 type DrawnCanvasProps = {
     backgroundColor?: string | SharedValue<string>;
     background?: React.ReactNode;
+    foreground?: React.ReactNode;
 };
 declare const DrawnCanvas: React.ForwardRefExoticComponent<DrawnCanvasProps & React.RefAttributes<SkiaDomView>>;
 export default DrawnCanvas;
