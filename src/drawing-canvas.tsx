@@ -36,7 +36,14 @@ type DrawingCanvasProps = {
 
 const DrawingCanvas = forwardRef<SkiaDomView, DrawingCanvasProps>(
   (
-    { pathEffect, foreground, strokeColor, strokeWidth, zoomable = false, onDrawEnd },
+    {
+      pathEffect,
+      foreground,
+      strokeColor,
+      strokeWidth,
+      zoomable = false,
+      onDrawEnd,
+    },
     ref,
   ) => {
     const pathSharedVal = useSharedValue(Skia.Path.Make());
@@ -54,10 +61,10 @@ const DrawingCanvas = forwardRef<SkiaDomView, DrawingCanvasProps>(
           clear
             ? null
             : {
-              strokeWidth: getSharedValue(strokeWidth),
-              strokeColor: getSharedValue(strokeColor),
-              path: derivedPathSharedVal,
-            },
+                strokeWidth: getSharedValue(strokeWidth),
+                strokeColor: getSharedValue(strokeColor),
+                path: derivedPathSharedVal,
+              },
         );
       },
       [strokeWidth, strokeColor],
