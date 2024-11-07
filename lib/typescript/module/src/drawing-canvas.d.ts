@@ -2,6 +2,7 @@ import { SkiaDomView } from '@shopify/react-native-skia';
 import { SharedValue } from 'react-native-reanimated';
 import React from 'react';
 type DrawingCanvasProps = {
+    pathEffect?: React.ReactNode;
     foreground?: React.ReactNode;
     strokeColor: string | SharedValue<string>;
     strokeWidth: number | SharedValue<number>;

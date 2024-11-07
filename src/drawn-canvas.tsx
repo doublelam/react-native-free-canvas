@@ -17,11 +17,12 @@ import CanvasContext from './canvas-context';
 type DrawnCanvasProps = {
   backgroundColor?: string | SharedValue<string>;
   background?: React.ReactNode;
+  pathEffect?: React.ReactNode;
   foreground?: React.ReactNode;
 };
 
 const DrawnCanvas = forwardRef<SkiaDomView, DrawnCanvasProps>(
-  ({ background, foreground, backgroundColor }, ref) => {
+  ({ background, pathEffect, foreground, backgroundColor }, ref) => {
     const sizeSharedValue: SharedValue<SkSize> = useSharedValue({
       width: 0,
       height: 0,
@@ -63,7 +64,9 @@ const DrawnCanvas = forwardRef<SkiaDomView, DrawnCanvasProps>(
             strokeJoin="round"
             strokeCap="round"
             color={path.strokeColor}
-          />
+          >
+            {pathEffect}
+          </Path>
         ))}
 
         {/* Foreground component */}

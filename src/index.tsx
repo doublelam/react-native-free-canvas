@@ -31,6 +31,7 @@ const FreeCanvas = forwardRef<FreeCanvasRef, FreeCanvasProps>(
       style,
       background,
       foreground,
+      pathEffect,
       backgroundColor,
       strokeColor = 'black',
       strokeWidth = 10,
@@ -149,6 +150,7 @@ const FreeCanvas = forwardRef<FreeCanvasRef, FreeCanvasProps>(
                 background={background}
                 foreground={foreground}
                 backgroundColor={backgroundColor}
+                pathEffect={pathEffect}
               />
 
               {/* Drawing canvas */}
@@ -159,6 +161,7 @@ const FreeCanvas = forwardRef<FreeCanvasRef, FreeCanvasProps>(
                 zoomable={zoomable}
                 strokeColor={strokeColor}
                 strokeWidth={strokeWidth}
+                pathEffect={pathEffect}
               />
             </GestureHandlerRootView>
           </Animated.View>

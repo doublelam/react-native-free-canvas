@@ -27,6 +27,17 @@ const App = () => {
 
 ```
 
+### Make Line Smoother
+```ts
+import {CornerPathEffect} from '@shopify/react-native-skia';
+
+// Add CornerPathEffect component to pathEffect props
+<FreeCanvas
+  style={{flex: 1}}
+  pathEffect={<CornerPathEffect r={32} />} 
+/>
+```
+
 
 
 
@@ -38,6 +49,7 @@ const App = () => {
 - backgroundColor?: string | SharedValue<string>;
 - background?: React.ReactNode; // Should be Skia component
 - foreground?: React.ReactNode; // Should be Skia component
+- pathEffect?: React.ReactNode; // Should be Skia Path Effects (https://shopify.github.io/react-native-skia/docs/path-effects)
 - zoomable?: boolean;
 - onDrawEnd?: () => void;
 ```
