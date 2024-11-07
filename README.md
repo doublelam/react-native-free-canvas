@@ -38,6 +38,7 @@ const App = () => {
 - backgroundColor?: string | SharedValue<string>;
 - background?: React.ReactNode; // Should be Skia component
 - foreground?: React.ReactNode; // Should be Skia component
+- pathEffect?: React.ReactNode; // Should be Skia Path Effects (https://shopify.github.io/react-native-skia/docs/path-effects)
 - zoomable?: boolean;
 - onDrawEnd?: () => void;
 ```

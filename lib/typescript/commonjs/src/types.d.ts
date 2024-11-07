@@ -9,6 +9,7 @@ export type FreeCanvasProps = {
     zoomable?: boolean;
     background?: React.ReactNode;
     foreground?: React.ReactNode;
+    pathEffect?: React.ReactNode;
     onDrawEnd?: () => void;
 };
 export type DrawnPath = {
