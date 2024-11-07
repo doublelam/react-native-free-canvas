@@ -27,6 +27,17 @@ const App = () => {
 
 ```
 
+### Make Line Smoother
+```ts
+import {CornerPathEffect} from '@shopify/react-native-skia';
+
+// Add CornerPathEffect component to pathEffect props
+<FreeCanvas
+  style={{flex: 1}}
+  pathEffect={<CornerPathEffect r={32} />} 
+/>
+```
+
 
 
 
