@@ -146,7 +146,7 @@ const DrawingCanvas = forwardRef<SkiaDomView, DrawingCanvasProps>(
           })
           .onFinalize(e => {
             'worklet';
-
+            context?.finalize();
             if (
               zoomingSharedVal.value ||
               e.numberOfPointers > 1 ||

@@ -47,11 +47,15 @@ const FreeCanvas = forwardRef<FreeCanvasRef, FreeCanvasProps>(
     const originSharedVal = useSharedValue([0, 0]);
     const scaleSharedVal = useSharedValue(1);
     const translateSharedVal = useSharedValue({ x: 0, y: 0 });
+    // save translate & scale value for touchend
+    const translateEndSharedVal = useSharedValue({x: 0, y: 0});
+    const scaleEndSharedVal = useSharedValue(1);
+
     const scaledStyle = useAnimatedStyle(() => ({
       transform: [
-        { scale: scaleSharedVal.value },
         { translateX: translateSharedVal.value.x },
         { translateY: translateSharedVal.value.y },
+        { scale: scaleSharedVal.value },
       ],
       transformOrigin: originSharedVal.value.concat([0]),
     }));
@@ -67,7 +71,7 @@ const FreeCanvas = forwardRef<FreeCanvasRef, FreeCanvasProps>(
         setScale: (x: number, y: number, scale: number) => {
           'worklet';
 
-          const resScale = scale * scaleSharedVal.value;
+          const resScale = scale * scaleEndSharedVal.value;
           if (resScale < 0.5 || resScale > 2) {
             return;
           }
@@ -76,13 +80,25 @@ const FreeCanvas = forwardRef<FreeCanvasRef, FreeCanvasProps>(
             duration: 200,
           });
         },
-        setTranslate: (x: number, y: number) => {
+        finalize: () => {
           'worklet';
-          console.log('setTranslate', x, y, translateSharedVal.value);
-          translateSharedVal.value = {
-            x: translateSharedVal.value.x + x,
-            y: translateSharedVal.value.y + y,
-          };
+
+          translateEndSharedVal.modify((val) => {
+            val.x = translateSharedVal.value.x;
+            val.y = translateSharedVal.value.y;
+            return val;
+          });
+
+          scaleEndSharedVal.value = scaleSharedVal.value;
+        },
+        setTranslate: (x: number, y: number, end?: boolean) => {
+          'worklet';
+
+          translateSharedVal.modify((val) => {
+            val.x = x + translateEndSharedVal.value.x;
+            val.y = y + translateEndSharedVal.value.y;
+            return val;
+          });
         },
       }),
       [drawnPaths],
@@ -126,17 +142,27 @@ const FreeCanvas = forwardRef<FreeCanvasRef, FreeCanvasProps>(
       [getSnapshot],
     );
 
+    const resetZoom = useCallback((duration: number = 200) => {
+      translateEndSharedVal.value = { x: 0, y: 0 };
+      scaleEndSharedVal.value = 1;
+      translateSharedVal.value = withTiming({ x: 0, y: 0 }, { duration });
+      scaleSharedVal.value = withTiming(1, { duration });
+    }, []);
+
     useImperativeHandle(
       ref,
       () => ({
         undo,
         reset,
+        resetZoom,
         getSnapshot,
         toBase64,
         drawPaths,
         toPaths,
+        translateSharedValue: translateSharedVal,
+        scaleSharedValue: scaleSharedVal,
       }),
-      [undo, reset, getSnapshot, toBase64, toPaths],
+      [undo, reset, resetZoom, getSnapshot, toBase64, toPaths, scaleSharedVal, translateSharedVal],
     );
 
     return (

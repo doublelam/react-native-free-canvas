@@ -33,11 +33,13 @@ export type CanvasContextType = {
   drawnPaths: DrawnPath[];
   setScale: (x: number, y: number, scale: number) => void;
   setTranslate: (x: number, y: number) => void;
+  finalize: () => void;
 } | null;
 
 export type FreeCanvasRef = {
   reset: () => void;
-  undo: () => void;
+  resetZoom: (duration?: number) => void;
+  undo: (step?: number /* step = 1 */) => void;
   toBase64: (
     fmt?: ImageFormat,
     quality?: number,
@@ -45,4 +47,6 @@ export type FreeCanvasRef = {
   getSnapshot: () => Promise<SkImage | undefined> | undefined;
   toPaths: () => DrawnPath[];
   drawPaths: (paths: DrawnPath[]) => void;
+  translateSharedValue: SharedValue<{ x: number; y: number }>,
+  scaleSharedValue: SharedValue<number>,
 };

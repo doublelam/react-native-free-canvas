@@ -42,29 +42,36 @@ import {CornerPathEffect} from '@shopify/react-native-skia';
 
 
 ## Properties
-```
-- style?: StyleProp<ViewStyle>;
-- strokeColor?: string | SharedValue<string>;
-- strokeWidth?: number | SharedValue<number>;
-- backgroundColor?: string | SharedValue<string>;
-- background?: React.ReactNode; // Should be Skia component
-- foreground?: React.ReactNode; // Should be Skia component
-- pathEffect?: React.ReactNode; // Should be Skia Path Effects (https://shopify.github.io/react-native-skia/docs/path-effects)
-- zoomable?: boolean;
-- onDrawEnd?: () => void;
+```ts
+{
+  style?: StyleProp<ViewStyle>;
+  strokeColor?: string | SharedValue<string>;
+  strokeWidth?: number | SharedValue<number>;
+  backgroundColor?: string | SharedValue<string>;
+  background?: React.ReactNode; // Should be Skia component
+  foreground?: React.ReactNode; // Should be Skia component
+  pathEffect?: React.ReactNode; // Should be Skia Path Effects (https://shopify.github.io/react-native-skia/docs/path-effects)
+  zoomable?: boolean;
+  onDrawEnd?: () => void;
+}
 ```
 
 ## Methods
-```
-- reset: () => void;
-- undo: () => void;
-- toBase64: (
-  fmt?: ImageFormat,
-  quality?: number,
-) => Promise<string | undefined>;
-- getSnapshot: () => Promise<SkImage | undefined> | undefined;
-- toPaths: () => DrawnPath[];
-- drawPaths: (paths: DrawnPath[]) => void;
+```ts
+{
+  reset: () => void;
+  resetZoom: (duration?: number) => void;
+  undo: (step?: number) => void;
+  toBase64: (
+    fmt?: ImageFormat,
+    quality?: number,
+  ) => Promise<string | undefined>;
+  getSnapshot: () => Promise<SkImage | undefined> | undefined;
+  toPaths: () => DrawnPath[];
+  drawPaths: (paths: DrawnPath[]) => void;
+  translateSharedValue: SharedValue<{ x: number; y: number }>,
+  scaleSharedValue: SharedValue<number>,
+}
 ```
 
 ## Inspired By
