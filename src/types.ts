@@ -47,6 +47,6 @@ export type FreeCanvasRef = {
   getSnapshot: () => Promise<SkImage | undefined> | undefined;
   toPaths: () => DrawnPath[];
   drawPaths: (paths: DrawnPath[]) => void;
-  translateSharedValue: SharedValue<{ x: number; y: number }>,
-  scaleSharedValue: SharedValue<number>,
+  translateSharedValue: SharedValue<{ x: number; y: number }>;
+  scaleSharedValue: SharedValue<number>;
 };

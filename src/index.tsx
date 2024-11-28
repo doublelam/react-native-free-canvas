@@ -48,7 +48,7 @@ const FreeCanvas = forwardRef<FreeCanvasRef, FreeCanvasProps>(
     const scaleSharedVal = useSharedValue(1);
     const translateSharedVal = useSharedValue({ x: 0, y: 0 });
     // save translate & scale value for touchend
-    const translateEndSharedVal = useSharedValue({x: 0, y: 0});
+    const translateEndSharedVal = useSharedValue({ x: 0, y: 0 });
     const scaleEndSharedVal = useSharedValue(1);
 
     const scaledStyle = useAnimatedStyle(() => ({
@@ -83,7 +83,7 @@ const FreeCanvas = forwardRef<FreeCanvasRef, FreeCanvasProps>(
         finalize: () => {
           'worklet';
 
-          translateEndSharedVal.modify((val) => {
+          translateEndSharedVal.modify(val => {
             val.x = translateSharedVal.value.x;
             val.y = translateSharedVal.value.y;
             return val;
@@ -91,10 +91,10 @@ const FreeCanvas = forwardRef<FreeCanvasRef, FreeCanvasProps>(
 
           scaleEndSharedVal.value = scaleSharedVal.value;
         },
-        setTranslate: (x: number, y: number, end?: boolean) => {
+        setTranslate: (x: number, y: number) => {
           'worklet';
 
-          translateSharedVal.modify((val) => {
+          translateSharedVal.modify(val => {
             val.x = x + translateEndSharedVal.value.x;
             val.y = y + translateEndSharedVal.value.y;
             return val;
@@ -162,7 +162,16 @@ const FreeCanvas = forwardRef<FreeCanvasRef, FreeCanvasProps>(
         translateSharedValue: translateSharedVal,
         scaleSharedValue: scaleSharedVal,
       }),
-      [undo, reset, resetZoom, getSnapshot, toBase64, toPaths, scaleSharedVal, translateSharedVal],
+      [
+        undo,
+        reset,
+        resetZoom,
+        getSnapshot,
+        toBase64,
+        toPaths,
+        scaleSharedVal,
+        translateSharedVal,
+      ],
     );
 
     return (
