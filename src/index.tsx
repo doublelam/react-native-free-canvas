@@ -56,10 +56,8 @@ const FreeCanvas = forwardRef<FreeCanvasRef, FreeCanvasProps>(
 
     useAnimatedReaction(
       () => translateSharedVal.value,
-      (current, prev) => {
-        if (current.x !== prev?.x || current.y !== prev?.y) {
-          onTranslate?.(current.x, current.y);
-        }
+      current => {
+        onTranslate?.(current.x, current.y);
       },
     );
 
