@@ -55,6 +55,7 @@ import {CornerPathEffect} from '@shopify/react-native-skia';
   onDrawEnd?: () => void;
   onTranslate?: (x: number, y: number) => void; // should be a worklet function, it runs on UI thread
   onScale?: (scale: number) => void; // should be a worklet function, it runs on UI thread
+  onTransformOriginChange?: (x: number, y: number) => void;
 }
 ```
 

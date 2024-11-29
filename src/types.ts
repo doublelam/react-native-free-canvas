@@ -14,6 +14,7 @@ export type FreeCanvasProps = {
   onDrawEnd?: () => void;
   onTranslate?: (x: number, y: number) => void;
   onScale?: (scale: number) => void;
+  onTransformOriginChange?: (x: number, y: number) => void;
 };
 
 export type DrawnPath = {

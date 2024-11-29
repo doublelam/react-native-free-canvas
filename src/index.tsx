@@ -40,6 +40,7 @@ const FreeCanvas = forwardRef<FreeCanvasRef, FreeCanvasProps>(
       onDrawEnd,
       onTranslate,
       onScale,
+      onTransformOriginChange,
     },
     ref,
   ) => {
@@ -67,6 +68,13 @@ const FreeCanvas = forwardRef<FreeCanvasRef, FreeCanvasProps>(
         if (current !== prev) {
           onScale?.(current);
         }
+      },
+    );
+
+    useAnimatedReaction(
+      () => originSharedVal.value,
+      current => {
+        onTransformOriginChange?.(current[0], current[1]);
       },
     );
 
