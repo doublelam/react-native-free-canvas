@@ -74,7 +74,7 @@ module.exports = [
       ],
       'no-shadow': 'off',
       'global-require': 0,
-      'no-console': 'off',
+      'no-console': 1,
       'react/jsx-props-no-spreading': 0,
       'react/state-in-constructor': 0,
       '@typescript-eslint/no-shadow': 'error',

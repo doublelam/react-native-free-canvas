@@ -9,6 +9,7 @@ import React, {
 import { ImageFormat, useCanvasRef } from '@shopify/react-native-skia';
 import { View } from 'react-native';
 import Animated, {
+  useAnimatedReaction,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
@@ -37,6 +38,8 @@ const FreeCanvas = forwardRef<FreeCanvasRef, FreeCanvasProps>(
       strokeWidth = 10,
       zoomable,
       onDrawEnd,
+      onTranslate,
+      onScale,
     },
     ref,
   ) => {
@@ -50,6 +53,24 @@ const FreeCanvas = forwardRef<FreeCanvasRef, FreeCanvasProps>(
     // save translate & scale value for touchend
     const translateEndSharedVal = useSharedValue({ x: 0, y: 0 });
     const scaleEndSharedVal = useSharedValue(1);
+
+    useAnimatedReaction(
+      () => translateSharedVal.value,
+      (current, prev) => {
+        if (current !== prev) {
+          onTranslate?.(current.x, current.y);
+        }
+      },
+    );
+
+    useAnimatedReaction(
+      () => scaleSharedVal.value,
+      (current, prev) => {
+        if (current !== prev) {
+          onScale?.(current);
+        }
+      },
+    );
 
     const scaledStyle = useAnimatedStyle(() => ({
       transform: [

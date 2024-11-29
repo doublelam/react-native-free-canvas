@@ -12,6 +12,8 @@ export type FreeCanvasProps = {
   foreground?: React.ReactNode;
   pathEffect?: React.ReactNode;
   onDrawEnd?: () => void;
+  onTranslate?: (x: number, y: number) => void;
+  onScale?: (scale: number) => void;
 };
 
 export type DrawnPath = {

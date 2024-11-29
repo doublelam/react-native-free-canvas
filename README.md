@@ -53,6 +53,8 @@ import {CornerPathEffect} from '@shopify/react-native-skia';
   pathEffect?: React.ReactNode; // Should be Skia Path Effects (https://shopify.github.io/react-native-skia/docs/path-effects)
   zoomable?: boolean;
   onDrawEnd?: () => void;
+  onTranslate?: (x: number, y: number) => void; // should be a worklet function, it runs on UI thread
+  onScale?: (scale: number) => void; // should be a worklet function, it runs on UI thread
 }
 ```
 
@@ -69,8 +71,8 @@ import {CornerPathEffect} from '@shopify/react-native-skia';
   getSnapshot: () => Promise<SkImage | undefined> | undefined;
   toPaths: () => DrawnPath[];
   drawPaths: (paths: DrawnPath[]) => void;
-  translateSharedValue: SharedValue<{ x: number; y: number }>,
-  scaleSharedValue: SharedValue<number>,
+  translateSharedValue: SharedValue<{ x: number; y: number }>;
+  scaleSharedValue: SharedValue<number>;
 }
 ```
 
