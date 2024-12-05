@@ -20,7 +20,10 @@ import FreeCanvas from 'react-native-free-canvas';
 const App = () => {
   return (
     <>
-      <FreeCanvas style={{flex: 1}} />
+      <FreeCanvas
+        // style={{flex: 1}} 
+        style={styles.flex1} //avoid using a new Object to prevent unnecessary re-rendering
+      />
     </>
   )
 };
@@ -33,7 +36,8 @@ import {CornerPathEffect} from '@shopify/react-native-skia';
 
 // Add CornerPathEffect component to pathEffect props
 <FreeCanvas
-  style={{flex: 1}}
+  // style={{flex: 1}}
+  style={styles.flex1}
   pathEffect={<CornerPathEffect r={32} />} 
 />
 ```
@@ -55,7 +59,7 @@ import {CornerPathEffect} from '@shopify/react-native-skia';
   onDrawEnd?: () => void;
   onTranslate?: (x: number, y: number) => void; // should be a worklet function, it runs on UI thread
   onScale?: (scale: number) => void; // should be a worklet function, it runs on UI thread
-  onTransformOriginChange?: (x: number, y: number) => void;
+  onTransformOriginChange?: (x: number, y: number) => void; // should be a worklet function, it runs on UI thread
 }
 ```
 
