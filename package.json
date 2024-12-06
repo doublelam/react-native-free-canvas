@@ -93,7 +93,8 @@
     "android",
     "sketch",
     "skia",
-    "draw"
+    "draw",
+    "freehand"
   ],
   "license": "MIT",
   "packageManager": "yarn@1.22.22"
