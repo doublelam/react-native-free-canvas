@@ -48,7 +48,7 @@ const FreeCanvas = forwardRef<FreeCanvasRef, FreeCanvasProps>(
     const [, setDrawingPath] = useState<DrawingPath | null>(null);
     const drawRef = useCanvasRef();
     const drawnRef = useCanvasRef();
-    const originSharedVal = useSharedValue([0, 0]);
+    const originSharedVal = useSharedValue([0, 0] as [number, number]);
     const scaleSharedVal = useSharedValue(1);
     const translateSharedVal = useSharedValue({ x: 0, y: 0 });
     // save translate & scale value for touchend
@@ -188,6 +188,7 @@ const FreeCanvas = forwardRef<FreeCanvasRef, FreeCanvasProps>(
         toPaths,
         translateSharedValue: translateSharedVal,
         scaleSharedValue: scaleSharedVal,
+        transformOriginSharedValue: originSharedVal,
       }),
       [
         undo,
@@ -198,6 +199,7 @@ const FreeCanvas = forwardRef<FreeCanvasRef, FreeCanvasProps>(
         toPaths,
         scaleSharedVal,
         translateSharedVal,
+        originSharedVal,
       ],
     );
 

@@ -52,4 +52,5 @@ export type FreeCanvasRef = {
   drawPaths: (paths: DrawnPath[]) => void;
   translateSharedValue: SharedValue<{ x: number; y: number }>;
   scaleSharedValue: SharedValue<number>;
+  transformOriginSharedValue: SharedValue<[number, number]>;
 };

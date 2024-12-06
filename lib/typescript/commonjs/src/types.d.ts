@@ -47,5 +47,6 @@ export type FreeCanvasRef = {
         y: number;
     }>;
     scaleSharedValue: SharedValue<number>;
+    transformOriginSharedValue: SharedValue<[number, number]>;
 };
 //# sourceMappingURL=types.d.ts.map
