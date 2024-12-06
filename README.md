@@ -34,16 +34,15 @@ const App = () => {
 ```ts
 import {CornerPathEffect} from '@shopify/react-native-skia';
 
+const effects = useMemo(() => <CornerPathEffect r={32} />, []);
+
 // Add CornerPathEffect component to pathEffect props
 <FreeCanvas
   // style={{flex: 1}}
   style={styles.flex1}
-  pathEffect={<CornerPathEffect r={32} />} 
+  pathEffect={effects} 
 />
 ```
-
-
-
 
 ## Properties
 ```ts
@@ -63,6 +62,21 @@ import {CornerPathEffect} from '@shopify/react-native-skia';
 }
 ```
 
+### Transform & Scale
+
+The order of the transform and scale in animated style for the Canvas while zooming should be:
+
+```ts
+{
+  transform: [
+    { translateX: translateSharedVal.value.x },
+    { translateY: translateSharedVal.value.y },
+    { scale: scaleSharedVal.value },
+  ],
+  transformOrigin: originSharedVal.value.concat([0]),
+}
+```
+
 ## Methods
 ```ts
 {
@@ -78,6 +92,7 @@ import {CornerPathEffect} from '@shopify/react-native-skia';
   drawPaths: (paths: DrawnPath[]) => void;
   translateSharedValue: SharedValue<{ x: number; y: number }>;
   scaleSharedValue: SharedValue<number>;
+  transformOriginSharedValue: SharedValue<[number, number]>;
 }
 ```
 
