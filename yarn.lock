@@ -6015,6 +6015,11 @@ promise@^8.3.0:
   dependencies:
     asap "~2.0.6"
 
+promises-delivery@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/promises-delivery/-/promises-delivery-1.0.0.tgz#3482cd7dbb2a68640351e81fdbd344df07e76952"
+  integrity sha512-++Z3aju0aNuOrSPHvOz/+s5BvkdREr6cK86B+0+i+E4FR/ZJOiEuJ0kbgF/siy13X1LeqrP6BB1j5DkQO0Mwfw==
+
 prompts@^2.0.1, prompts@^2.4.2:
   version "2.4.2"
   resolved "https://registry.yarnpkg.com/prompts/-/prompts-2.4.2.tgz#7b57e73b3a48029ad10ebd44f74b01722a4cb069"

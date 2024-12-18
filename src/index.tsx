@@ -25,6 +25,9 @@ import type {
 } from './types';
 import DrawingCanvas from './drawing-canvas';
 import CanvasContext from './canvas-context';
+import Delivery from 'promises-delivery';
+
+const delivery = new Delivery<true>();
 
 const FreeCanvas = forwardRef<FreeCanvasRef, FreeCanvasProps>(
   (
@@ -127,8 +130,9 @@ const FreeCanvas = forwardRef<FreeCanvasRef, FreeCanvasProps>(
             return val;
           });
         },
+        pathCompleteDelivery: delivery,
       }),
-      [drawnPaths],
+      [drawnPaths, delivery],
     );
 
     const undo = useCallback(

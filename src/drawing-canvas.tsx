@@ -19,10 +19,8 @@ import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { View } from 'react-native';
 import CanvasContext from './canvas-context';
 import {
-  clearAnimatedTimeout,
   genUniqueKey,
   getSharedValue,
-  setAnimatedTimeout,
 } from './utils';
 
 type DrawingCanvasProps = {
@@ -71,6 +69,15 @@ const DrawingCanvas = forwardRef<SkiaDomView, DrawingCanvasProps>(
     );
 
     const addDrawn = useCallback((path: DrawnPath) => {
+      context?.pathCompleteDelivery.register(path.key).then(() => {
+        pathSharedVal.modify(v => {
+          'worklet';
+
+          v.reset();
+          return v;
+        });
+        onDrawEnd?.();
+      });
       context?.addDrawnPath(path);
     }, []);
 
@@ -120,7 +127,6 @@ const DrawingCanvas = forwardRef<SkiaDomView, DrawingCanvasProps>(
             if (zoomingSharedVal.value || e.numberOfPointers > 1) {
               return;
             }
-            clearAnimatedTimeout(animatedTimeout.value);
             pathSharedVal.modify(v => {
               v.reset();
               v.moveTo(touch.x || 0, touch.y || 0);
@@ -156,23 +162,11 @@ const DrawingCanvas = forwardRef<SkiaDomView, DrawingCanvasProps>(
             }
             runOnJS(changeDrawing)(true);
             runOnJS(addDrawn)({
-              key: genUniqueKey(),
+              key: genUniqueKey('path'),
               strokeWidth: getSharedValue(strokeWidth),
               strokeColor: getSharedValue(strokeColor),
               path: getSharedValue(derivedPathSharedVal),
             });
-
-            animatedTimeout.value = setAnimatedTimeout(() => {
-              'worklet';
-
-              pathSharedVal.modify(v => {
-                v.reset();
-                return v;
-              });
-              if (onDrawEnd) {
-                runOnJS(onDrawEnd)();
-              }
-            }, 300);
           }),
       [strokeWidth, strokeColor],
     );

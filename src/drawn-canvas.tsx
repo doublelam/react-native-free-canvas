@@ -11,7 +11,7 @@ import {
   useDerivedValue,
   useSharedValue,
 } from 'react-native-reanimated';
-import React, { forwardRef, RefObject, useContext } from 'react';
+import React, { forwardRef, RefObject, useContext, useEffect } from 'react';
 import CanvasContext from './canvas-context';
 
 type DrawnCanvasProps = {
@@ -35,6 +35,18 @@ const DrawnCanvas = forwardRef<SkiaDomView, DrawnCanvasProps>(
     );
 
     const context = useContext(CanvasContext);
+
+    useEffect(() => {
+      const last = context?.drawnPaths.at(-1);
+      if (last && context?.pathCompleteDelivery) {
+        try {
+          context.pathCompleteDelivery.resolve(last.key, true);
+        } catch {
+          // Nothing to do here;
+        }
+      }
+    }, [context?.drawnPaths]);
+
     return (
       <Canvas
         ref={ref as RefObject<SkiaDomView>}

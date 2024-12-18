@@ -14,51 +14,6 @@ const TIMEOUT_ID = makeMutable(0);
 
 export type AnimatedTimeoutID = number;
 
-const removeFromPendingTimeouts = (id: AnimatedTimeoutID) => {
-  'worklet';
-  PENDING_TIMEOUTS.modify(pendingTimeouts => {
-    'worklet';
-    delete pendingTimeouts[id];
-    return pendingTimeouts;
-  });
-};
-
-export const setAnimatedTimeout = <F extends () => void>(
-  callback: F,
-  delay: number,
-): AnimatedTimeoutID => {
-  'worklet';
-  let startTimestamp: number;
-
-  const currentId = TIMEOUT_ID.value;
-  PENDING_TIMEOUTS.value[currentId] = true;
-  TIMEOUT_ID.value += 1;
-
-  const step = (newTimestamp: number) => {
-    if (!PENDING_TIMEOUTS.value[currentId]) {
-      return;
-    }
-    if (startTimestamp === undefined) {
-      startTimestamp = newTimestamp;
-    }
-    if (newTimestamp >= startTimestamp + delay) {
-      removeFromPendingTimeouts(currentId);
-      callback();
-      return;
-    }
-    requestAnimationFrame(step);
-  };
-
-  requestAnimationFrame(step);
-
-  return currentId;
-};
-
-export const clearAnimatedTimeout = (handle: AnimatedTimeoutID) => {
-  'worklet';
-  removeFromPendingTimeouts(handle);
-};
-
 const ImageFormatMap = {
   [ImageFormat.JPEG]: 'jpg',
   [ImageFormat.PNG]: 'png',
@@ -70,8 +25,8 @@ export const fillBase64 = (type: ImageFormat, base64Rest: string): string => {
   return `${prefix}${base64Rest}`;
 };
 
-export const genUniqueKey = () => {
+export const genUniqueKey = (prefix?: string) => {
   'worklet';
   // random number - timestamps - random number
-  return `${(Math.random() * 1000000).toFixed()}-${Date.now()}-${(Math.random() * 1000000).toFixed()}`;
+  return `${prefix}-${(Math.random() * 1000000).toFixed()}-${Date.now()}-${(Math.random() * 1000000).toFixed()}`;
 };
