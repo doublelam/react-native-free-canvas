@@ -1,5 +1,5 @@
 import { ImageFormat } from '@shopify/react-native-skia';
-import { SharedValue, makeMutable } from 'react-native-reanimated';
+import { SharedValue } from 'react-native-reanimated';
 
 export const getSharedValue = <T>(val: T | SharedValue<T>) => {
   'worklet';
@@ -8,9 +8,6 @@ export const getSharedValue = <T>(val: T | SharedValue<T>) => {
     val && typeof val === 'object' && 'value' in val ? val.value : val
   ) as T;
 };
-
-const PENDING_TIMEOUTS = makeMutable<Record<string, boolean>>({});
-const TIMEOUT_ID = makeMutable(0);
 
 export type AnimatedTimeoutID = number;
 

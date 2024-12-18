@@ -1,6 +1,7 @@
 import type { ImageFormat, SkImage } from '@shopify/react-native-skia';
 import type { StyleProp, ViewStyle } from 'react-native';
 import type { SharedValue } from 'react-native-reanimated';
+import type Delivery from 'promises-delivery';
 export type FreeCanvasProps = {
     style?: StyleProp<ViewStyle>;
     strokeColor?: string | SharedValue<string>;
@@ -33,6 +34,7 @@ export type CanvasContextType = {
     setScale: (x: number, y: number, scale: number) => void;
     setTranslate: (x: number, y: number) => void;
     finalize: () => void;
+    pathCompleteDelivery: Delivery<true>;
 } | null;
 export type FreeCanvasRef = {
     reset: () => void;

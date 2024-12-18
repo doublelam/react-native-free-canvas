@@ -18,10 +18,7 @@ import { DrawnPath } from './types';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { View } from 'react-native';
 import CanvasContext from './canvas-context';
-import {
-  genUniqueKey,
-  getSharedValue,
-} from './utils';
+import { genUniqueKey, getSharedValue } from './utils';
 
 type DrawingCanvasProps = {
   pathEffect?: React.ReactNode;
@@ -46,7 +43,6 @@ const DrawingCanvas = forwardRef<SkiaDomView, DrawingCanvasProps>(
   ) => {
     const pathSharedVal = useSharedValue(Skia.Path.Make());
     const sizeSharedVal = useSharedValue({ width: 0, height: 0 });
-    const animatedTimeout = useSharedValue(0);
     const zoomingSharedVal = useSharedValue(false);
     const derivedPathSharedVal = useDerivedValue(
       () => pathSharedVal.value.toSVGString(),
