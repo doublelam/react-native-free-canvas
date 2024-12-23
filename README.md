@@ -45,22 +45,21 @@ const effects = useMemo(() => <CornerPathEffect r={32} />, []);
 ```
 
 ## Properties
-```ts
-{
-  style?: StyleProp<ViewStyle>;
-  strokeColor?: string | SharedValue<string>;
-  strokeWidth?: number | SharedValue<number>;
-  backgroundColor?: string | SharedValue<string>;
-  background?: React.ReactNode; // Should be Skia component
-  foreground?: React.ReactNode; // Should be Skia component
-  pathEffect?: React.ReactNode; // Should be Skia Path Effects (https://shopify.github.io/react-native-skia/docs/path-effects)
-  zoomable?: boolean;
-  onDrawEnd?: () => void;
-  onTranslate?: (x: number, y: number) => void; // should be a worklet function, it runs on UI thread
-  onScale?: (scale: number) => void; // should be a worklet function, it runs on UI thread
-  onTransformOriginChange?: (x: number, y: number) => void; // should be a worklet function, it runs on UI thread
-}
-```
+
+| Property | Type | Description |
+|----------|------|-------------|
+| style | `StyleProp<ViewStyle>` | Custom styles for the canvas |
+| strokeColor | string \| `SharedValue<string>` | Color of the stroke |
+| strokeWidth | number \| `SharedValue<number>` | Width of the stroke |
+| backgroundColor | string \| `SharedValue<string>` | Background color of the canvas |
+| background | React.ReactNode | Skia component for background |
+| foreground | React.ReactNode | Skia component for foreground |
+| pathEffect | React.ReactNode | Skia Path Effects (see [documentation](https://shopify.github.io/react-native-skia/docs/path-effects)) |
+| zoomable | boolean | Enable/disable zooming |
+| onDrawEnd | () => void | Callback function when drawing ends |
+| onTranslate | (x: number, y: number) => void | Worklet function that runs on UI thread when canvas is translated |
+| onScale | (scale: number) => void | Worklet function that runs on UI thread when canvas is scaled |
+| onTransformOriginChange | (x: number, y: number) => void | Worklet function that runs on UI thread when transform origin changes |
 
 ### Transform & Scale
 
@@ -77,24 +76,19 @@ The order of the transform and scale in animated style for the Canvas while zoom
 }
 ```
 
-## Methods
-```ts
-{
-  reset: () => void;
-  resetZoom: (duration?: number) => void;
-  undo: (step?: number) => void;
-  toBase64: (
-    fmt?: ImageFormat,
-    quality?: number,
-  ) => Promise<string | undefined>;
-  getSnapshot: () => Promise<SkImage | undefined> | undefined;
-  toPaths: () => DrawnPath[];
-  drawPaths: (paths: DrawnPath[]) => void;
-  translateSharedValue: SharedValue<{ x: number; y: number }>;
-  scaleSharedValue: SharedValue<number>;
-  transformOriginSharedValue: SharedValue<[number, number]>;
-}
-```
+## Methods or Values
+| Method | Parameters | Return Type | Description |
+|--------|------------|-------------|-------------|
+| reset | - | void | Resets the canvas |
+| resetZoom | (duration?: number) | void | Resets the zoom level |
+| undo | (step?: number) | void | Undoes the last drawing action(s) |
+| toBase64 | (fmt?: ImageFormat, quality?: number) | Promise<string \| undefined> | Converts canvas to base64 string |
+| getSnapshot | - | Promise<SkImage \| undefined> \| undefined | Gets a snapshot of the canvas |
+| toPaths | - | DrawnPath[] | Returns the drawn paths |
+| drawPaths | (paths: DrawnPath[]) | void | Draws the given paths on the canvas |
+| translateSharedValue | - | `SharedValue<{ x: number; y: number }>` | Shared value for translation |
+| scaleSharedValue | - | `SharedValue<number>` | Shared value for scale |
+| transformOriginSharedValue | - | `SharedValue<[number, number]>` | Shared value for transform origin |
 
 ## Inspired By
 [wobsoriano/rn-perfect-sketch-canvas](https://github.com/wobsoriano/rn-perfect-sketch-canvas) A React Native component for drawing perfect pressure-sensitive freehand lines using perfect-freehand and Skia renderer.
