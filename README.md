@@ -1,7 +1,7 @@
 # react-native-free-canvas
 Freehand sketch on canvas based on  [@shopify/react-native-skia](https://github.com/shopify/react-native-skia)
 
-<img src="https://github.com/user-attachments/assets/b8749961-5d4d-482c-aa6c-add5b0f5b654" width=200 />
+<img src="https://github.com/user-attachments/assets/240398a3-2ebf-4edc-bdf5-36812765e39b" width=200 />
 
 ## Install
 You need to install following dependencies
@@ -56,12 +56,13 @@ const effects = useMemo(() => <CornerPathEffect r={32} />, []);
 | foreground | React.ReactNode | Skia component for foreground |
 | pathEffect | React.ReactNode | Skia Path Effects (see [documentation](https://shopify.github.io/react-native-skia/docs/path-effects)) |
 | zoomable | boolean | Enable/disable zooming |
+| zoomRange | [number, number] | when `zoomable` enabled, the range of zooming scale(default: [0.5, 2]) |
 | onDrawEnd | () => void | Callback function when drawing ends |
 | onTranslate | (x: number, y: number) => void | Worklet function that runs on UI thread when canvas is translated |
 | onScale | (scale: number) => void | Worklet function that runs on UI thread when canvas is scaled |
 | onTransformOriginChange | (x: number, y: number) => void | Worklet function that runs on UI thread when transform origin changes |
 
-### Transform & Scale
+### Transform: translate, scale, transformOrigin
 
 The order of the transform and scale in animated style for the Canvas while zooming should be:
 
