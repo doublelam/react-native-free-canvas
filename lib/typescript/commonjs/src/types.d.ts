@@ -8,6 +8,7 @@ export type FreeCanvasProps = {
     strokeWidth?: number | SharedValue<number>;
     backgroundColor?: string | SharedValue<string>;
     zoomable?: boolean;
+    zoomRange?: [number, number];
     background?: React.ReactNode;
     foreground?: React.ReactNode;
     pathEffect?: React.ReactNode;

@@ -29,6 +29,9 @@ import Delivery from 'promises-delivery';
 
 const delivery = new Delivery<true>();
 
+const defaultZoomMin = 0.5;
+const defaultZoomMax = 2;
+
 const FreeCanvas = forwardRef<FreeCanvasRef, FreeCanvasProps>(
   (
     {
@@ -40,6 +43,7 @@ const FreeCanvas = forwardRef<FreeCanvasRef, FreeCanvasProps>(
       strokeColor = 'black',
       strokeWidth = 10,
       zoomable,
+      zoomRange = [defaultZoomMin, defaultZoomMax],
       onDrawEnd,
       onTranslate,
       onScale,
@@ -102,7 +106,10 @@ const FreeCanvas = forwardRef<FreeCanvasRef, FreeCanvasProps>(
           'worklet';
 
           const resScale = scale * scaleEndSharedVal.value;
-          if (resScale < 0.5 || resScale > 2) {
+          if (
+            resScale < (zoomRange.at(0) ?? defaultZoomMin) ||
+            resScale > (zoomRange.at(1) ?? defaultZoomMax)
+          ) {
             return;
           }
           scaleSharedVal.value = resScale;
@@ -132,7 +139,7 @@ const FreeCanvas = forwardRef<FreeCanvasRef, FreeCanvasProps>(
         },
         pathCompleteDelivery: delivery,
       }),
-      [drawnPaths, delivery],
+      [drawnPaths, delivery, zoomRange],
     );
 
     const undo = useCallback(
@@ -209,9 +216,9 @@ const FreeCanvas = forwardRef<FreeCanvasRef, FreeCanvasProps>(
 
     return (
       <CanvasContext.Provider value={providerVal}>
-        <View style={[style]}>
-          <Animated.View style={[styles.flex1, scaledStyle]}>
-            <GestureHandlerRootView style={styles.flex1}>
+        <View style={style}>
+          <GestureHandlerRootView style={styles.flex1}>
+            <Animated.View style={[styles.flex1, scaledStyle]}>
               {/* Drawn canvas */}
               <DrawnCanvas
                 ref={drawnRef}
@@ -231,8 +238,8 @@ const FreeCanvas = forwardRef<FreeCanvasRef, FreeCanvasProps>(
                 strokeWidth={strokeWidth}
                 pathEffect={pathEffect}
               />
-            </GestureHandlerRootView>
-          </Animated.View>
+            </Animated.View>
+          </GestureHandlerRootView>
         </View>
       </CanvasContext.Provider>
     );

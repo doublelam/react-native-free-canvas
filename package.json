@@ -1,6 +1,6 @@
 {
   "name": "react-native-free-canvas",
-  "version": "1.3.3",
+  "version": "1.4.0",
   "description": "A high-performance drawing and sketching library for React Native, built on @shopify/react-native-skia, with smooth zoom and pan functionalities.",
   "scripts": {
     "build": "bob build"
@@ -26,7 +26,7 @@
     "@react-native/eslint-config": "0.75.2",
     "@react-native/metro-config": "0.75.2",
     "@react-native/typescript-config": "0.75.2",
-    "@shopify/react-native-skia": "1.3.13",
+    "@shopify/react-native-skia": "1.8.2",
     "@types/jest": "^29.5.12",
     "@types/react": "^18.3.5",
     "@typescript-eslint/eslint-plugin": "8.3.0",
@@ -44,8 +44,8 @@
     "react": "18.3.1",
     "react-native": "0.75.2",
     "react-native-builder-bob": "^0.30.2",
-    "react-native-gesture-handler": "2.18.1",
-    "react-native-reanimated": "3.15.1",
+    "react-native-gesture-handler": "2.21.2",
+    "react-native-reanimated": "3.16.6",
     "typescript": "5.5.4"
   },
   "peerDependencies": {
