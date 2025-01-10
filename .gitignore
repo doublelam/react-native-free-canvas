@@ -17,3 +17,8 @@ node_modules
 
 # MAC file
 .DS_Store
+
+
+# expo
+.expo
+expo-env.d.ts
