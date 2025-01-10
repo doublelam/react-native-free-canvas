@@ -1,0 +1,45 @@
+{
+  "name": "expo-example",
+  "main": "expo-router/entry",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "expo start",
+    "reset-project": "node ./scripts/reset-project.js",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "test": "jest --watchAll",
+    "lint": "expo lint"
+  },
+  "jest": {
+    "preset": "jest-expo"
+  },
+  "dependencies": {
+    "@expo/vector-icons": "^14.0.2",
+    "@react-navigation/bottom-tabs": "^7.2.0",
+    "@react-navigation/native": "^7.0.14",
+    "@shopify/react-native-skia": "^1.8.2",
+    "expo": "~52.0.24",
+    "expo-constants": "~17.0.3",
+    "expo-font": "~13.0.2",
+    "expo-linking": "~7.0.3",
+    "expo-router": "~4.0.16",
+    "expo-splash-screen": "~0.29.19",
+    "react": "18.3.1",
+    "react-native": "0.76.5",
+    "react-native-gesture-handler": "2.21.2",
+    "react-native-reanimated": "3.16.6",
+    "react-native-safe-area-context": "4.12.0",
+    "react-native-screens": "~4.4.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.25.2",
+    "@types/jest": "^29.5.12",
+    "@types/react": "~18.3.12",
+    "@types/react-test-renderer": "^18.3.0",
+    "jest": "^29.2.1",
+    "react-test-renderer": "18.3.1",
+    "typescript": "^5.3.3"
+  },
+  "private": true
+}
