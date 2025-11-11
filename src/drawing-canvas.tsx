@@ -1,7 +1,6 @@
-import { Canvas, Path, Skia, SkiaDomView } from '@shopify/react-native-skia';
+import { Canvas, Path, Skia, CanvasRef } from '@shopify/react-native-skia';
 import styles from './styles';
 import {
-  runOnJS,
   SharedValue,
   useDerivedValue,
   useSharedValue,
@@ -19,6 +18,7 @@ import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { View } from 'react-native';
 import CanvasContext from './canvas-context';
 import { genUniqueKey, getSharedValue } from './utils';
+import { scheduleOnRN } from 'react-native-worklets';
 
 type DrawingCanvasProps = {
   pathEffect?: React.ReactNode;
@@ -29,7 +29,7 @@ type DrawingCanvasProps = {
   onDrawEnd?: () => void;
 };
 
-const DrawingCanvas = forwardRef<SkiaDomView, DrawingCanvasProps>(
+const DrawingCanvas = forwardRef<CanvasRef, DrawingCanvasProps>(
   (
     {
       pathEffect,
@@ -85,7 +85,6 @@ const DrawingCanvas = forwardRef<SkiaDomView, DrawingCanvasProps>(
             'worklet';
 
             zoomingSharedVal.value = true;
-            // runOnJS(setZooming)(true);
           })
           .onUpdate(e => {
             'worklet';
@@ -105,7 +104,6 @@ const DrawingCanvas = forwardRef<SkiaDomView, DrawingCanvasProps>(
             'worklet';
 
             zoomingSharedVal.value = false;
-            // runOnJS(setZooming)(false)
           }),
       [zoomable],
     );
@@ -129,7 +127,7 @@ const DrawingCanvas = forwardRef<SkiaDomView, DrawingCanvasProps>(
               v.lineTo(touch.x || 0, touch.y || 0);
               return v;
             });
-            runOnJS(changeDrawing)(false);
+            scheduleOnRN(changeDrawing, false);
           })
           .onUpdate(e => {
             'worklet';
@@ -148,6 +146,7 @@ const DrawingCanvas = forwardRef<SkiaDomView, DrawingCanvasProps>(
           })
           .onFinalize(e => {
             'worklet';
+
             context?.finalize();
             if (
               zoomingSharedVal.value ||
@@ -156,8 +155,8 @@ const DrawingCanvas = forwardRef<SkiaDomView, DrawingCanvasProps>(
             ) {
               return;
             }
-            runOnJS(changeDrawing)(true);
-            runOnJS(addDrawn)({
+            scheduleOnRN(changeDrawing, true);
+            scheduleOnRN(addDrawn, {
               key: genUniqueKey('path'),
               strokeWidth: getSharedValue(strokeWidth),
               strokeColor: getSharedValue(strokeColor),
@@ -174,7 +173,7 @@ const DrawingCanvas = forwardRef<SkiaDomView, DrawingCanvasProps>(
         <View style={styles.canvas}>
           <Canvas
             onSize={sizeSharedVal}
-            ref={ref as RefObject<SkiaDomView>}
+            ref={ref as RefObject<CanvasRef>}
             style={{ flex: 1 }}
           >
             {/* Drawing path */}

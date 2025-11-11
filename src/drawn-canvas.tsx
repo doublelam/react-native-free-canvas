@@ -2,7 +2,7 @@ import {
   Canvas,
   Path,
   Rect,
-  SkiaDomView,
+  CanvasRef,
   SkSize,
 } from '@shopify/react-native-skia';
 import styles from './styles';
@@ -21,7 +21,7 @@ type DrawnCanvasProps = {
   foreground?: React.ReactNode;
 };
 
-const DrawnCanvas = forwardRef<SkiaDomView, DrawnCanvasProps>(
+const DrawnCanvas = forwardRef<CanvasRef, DrawnCanvasProps>(
   ({ background, pathEffect, foreground, backgroundColor }, ref) => {
     const sizeSharedValue: SharedValue<SkSize> = useSharedValue({
       width: 0,
@@ -49,7 +49,7 @@ const DrawnCanvas = forwardRef<SkiaDomView, DrawnCanvasProps>(
 
     return (
       <Canvas
-        ref={ref as RefObject<SkiaDomView>}
+        ref={ref as RefObject<CanvasRef>}
         style={styles.canvas}
         onSize={sizeSharedValue}
       >

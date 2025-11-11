@@ -1,4 +1,4 @@
-import { SkiaDomView } from '@shopify/react-native-skia';
+import { CanvasRef } from '@shopify/react-native-skia';
 import { SharedValue } from 'react-native-reanimated';
 import React from 'react';
 type DrawingCanvasProps = {
@@ -9,6 +9,6 @@ type DrawingCanvasProps = {
     zoomable?: boolean;
     onDrawEnd?: () => void;
 };
-declare const _default: React.MemoExoticComponent<React.ForwardRefExoticComponent<DrawingCanvasProps & React.RefAttributes<SkiaDomView>>>;
+declare const _default: React.NamedExoticComponent<DrawingCanvasProps & React.RefAttributes<CanvasRef>>;
 export default _default;
 //# sourceMappingURL=drawing-canvas.d.ts.map
