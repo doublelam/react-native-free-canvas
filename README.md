@@ -6,7 +6,7 @@ Freehand sketch on canvas based on  [@shopify/react-native-skia](https://github.
 ## Install
 You need to install following dependencies
 ```
-"@shopify/react-native-skia": ">=1.0.0",
+"@shopify/react-native-skia": ">=2.0.0",
 "react": ">=18.0.0",
 "react-native": ">=0.72.0",
 "react-native-gesture-handler": ">=2.0.0",
@@ -48,19 +48,19 @@ const effects = useMemo(() => <CornerPathEffect r={32} />, []);
 
 | Property | Type | Description |
 |----------|------|-------------|
-| style | `StyleProp<ViewStyle>` | Custom styles for the canvas |
-| strokeColor | string \| `SharedValue<string>` | Color of the stroke |
-| strokeWidth | number \| `SharedValue<number>` | Width of the stroke |
-| backgroundColor | string \| `SharedValue<string>` | Background color of the canvas |
-| background | React.ReactNode | Skia component for background |
-| foreground | React.ReactNode | Skia component for foreground |
-| pathEffect | React.ReactNode | Skia Path Effects (see [documentation](https://shopify.github.io/react-native-skia/docs/path-effects)) |
-| zoomable | boolean | Enable/disable zooming |
-| zoomRange | [number, number] | when `zoomable` enabled, the range of zooming scale(default: [0.5, 2]) |
-| onDrawEnd | () => void | Callback function when drawing ends |
-| onTranslate | (x: number, y: number) => void | Worklet function that runs on UI thread when canvas is translated |
-| onScale | (scale: number) => void | Worklet function that runs on UI thread when canvas is scaled |
-| onTransformOriginChange | (x: number, y: number) => void | Worklet function that runs on UI thread when transform origin changes |
+| style? | `StyleProp<ViewStyle>` | Custom styles for the canvas |
+| strokeColor? | string \| `SharedValue<string>` | Color of the stroke |
+| strokeWidth? | number \| `SharedValue<number>` | Width of the stroke |
+| backgroundColor? | string \| `SharedValue<string>` | Background color of the canvas |
+| background? | React.ReactNode | Skia component for background |
+| foreground? | React.ReactNode | Skia component for foreground |
+| pathEffect? | React.ReactNode | Skia Path Effects (see [documentation](https://shopify.github.io/react-native-skia/docs/path-effects)) |
+| zoomable? | boolean | Enable/disable zooming |
+| zoomRange? | [number, number] | when `zoomable` enabled, the range of zooming scale(default: [0.5, 2]) |
+| onDrawEnd? | () => void | Callback function when drawing ends |
+| onTranslate? | (x: number, y: number) => void | Worklet function that runs on UI thread when canvas is translated |
+| onScale? | (scale: number) => void | Worklet function that runs on UI thread when canvas is scaled |
+| onTransformOriginChange? | (x: number, y: number) => void | Worklet function that runs on UI thread when transform origin changes |
 
 ### Transform: translate, scale, transformOrigin
 

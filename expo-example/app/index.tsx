@@ -9,7 +9,7 @@ export default function HomeScreen() {
   const image = Skia.Image.MakeImageFromEncoded(data);
   return (
     <View style={{ flex: 1 }}>
-      <View style={{ flex: 1, backgroundColor: '#ddd' }}>
+      <View style={{ flex: 1, backgroundColor: '#fff' }}>
         <FreeCanvas
           ref={ref}
           zoomRange={[0.1, 7]}
@@ -29,7 +29,7 @@ export default function HomeScreen() {
           <Button title="reset" onPress={() => ref.current?.reset()} />
           <Button title="resetZoom" onPress={() => ref.current?.resetZoom()} />
           <Button
-            title="get image"
+            title="Get image"
             onPress={async () => {
               const base64 = await ref.current?.toBase64();
               if (base64) {

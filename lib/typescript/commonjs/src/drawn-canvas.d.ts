@@ -1,4 +1,4 @@
-import { SkiaDomView } from '@shopify/react-native-skia';
+import { CanvasRef } from '@shopify/react-native-skia';
 import { SharedValue } from 'react-native-reanimated';
 import React from 'react';
 type DrawnCanvasProps = {
@@ -7,6 +7,6 @@ type DrawnCanvasProps = {
     pathEffect?: React.ReactNode;
     foreground?: React.ReactNode;
 };
-declare const DrawnCanvas: React.ForwardRefExoticComponent<DrawnCanvasProps & React.RefAttributes<SkiaDomView>>;
+declare const DrawnCanvas: React.ForwardRefExoticComponent<DrawnCanvasProps & React.RefAttributes<CanvasRef>>;
 export default DrawnCanvas;
 //# sourceMappingURL=drawn-canvas.d.ts.map
