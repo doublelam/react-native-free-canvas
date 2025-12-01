@@ -10,7 +10,8 @@ You need to install following dependencies
 "react": ">=18.0.0",
 "react-native": ">=0.72.0",
 "react-native-gesture-handler": ">=2.0.0",
-"react-native-reanimated": ">=3.0.0"
+"react-native-reanimated": ">=4.0.0",
+"react-native-worklets": "*",
 ```
 
 ## Usage
