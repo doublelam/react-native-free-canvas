@@ -75,7 +75,7 @@ Performance-related choices: `memo` on exported components, `useMemo` / `useCall
 
 ## Version notes
 
-The root `package.json` **devDependencies** pin the library dev stack for CI and `bob build` (currently **RN 0.82.x**, **Reanimated 4.1.7**, **worklets 0.5.1**, **Skia 2.6.x**, **gesture-handler 2.31.x** — see that file for exact pins). **`expo-example`** stays on **Expo SDK 54** (`expo` ~54.0.x, **RN 0.81.x**, **Skia 2.2.12** per `expo install`, **Reanimated ~4.1.1** / **worklets 0.5.1**). Root and example intentionally differ slightly on RN/Skia minor while sharing the same **Reanimated + worklets** family validated for SDK 54. Re-run **`yarn install`** in both roots after any bump; use **`npx expo start --clear`** after native changes.
+The root `package.json` **devDependencies** pin the library dev stack for CI and `bob build` (currently **RN 0.85.x**, **Reanimated 4.3.x**, **worklets 0.8.x**, **Skia 2.6.x**, **gesture-handler 2.31.x** — see that file for exact pins). **`expo-example`** tracks **Expo SDK 55** (`expo` ~55.0.x, **RN 0.83.x**, **Skia 2.4.x** per `expo install`, **Reanimated ~4.2** / **worklets 0.7.x**). The example follows Expo’s pinned matrix; the root is often **one RN minor ahead** for typecheck and `bob` while keeping **Reanimated + worklets** internally consistent per their peers. Re-run **`yarn install`** in both roots after any bump; use **`npx expo start --clear`** after native changes. **Expo SDK 55** expects a current **Xcode** toolchain for local iOS prebuilds (see `npx expo-doctor` / [Expo–Xcode compatibility](https://expo.fyi/expo-sdk-xcode-compatibility)); Expo Go or EAS builds may still work on older hosts.
 
 ## Further reading
 

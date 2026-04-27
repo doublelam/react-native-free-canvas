@@ -31,7 +31,7 @@ You need to install following dependencies
 "react-native-worklets": ">=0.5.0"
 ```
 
-`react-native-worklets` is required at runtime (the library uses `scheduleOnRN` from gesture/worklet code). Match the **worklets** version range your **Reanimated** package declares (e.g. Reanimated **4.1.x** supports worklets **0.5–0.8**; **Expo SDK 54** pins **0.5.1** alongside **Reanimated ~4.1**).
+`react-native-worklets` is required at runtime (the library uses `scheduleOnRN` from gesture/worklet code). Match the **worklets** version range your **Reanimated** package declares (e.g. Reanimated **4.3.x** expects **worklets 0.8.x**; **Expo SDK 55** / **Reanimated ~4.2** uses **worklets 0.7.x** — always align with `peerDependencies` on the versions you install).
 
 Dependency upgrades in this repo: follow **`.cursor/skills/upgrade-dependencies/SKILL.md`** (or run the **upgrade-dependencies** command).
 
