@@ -20,8 +20,8 @@ import {
   Text,
   View,
 } from 'react-native';
-import { runOnJS } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { scheduleOnRN } from 'react-native-worklets';
 
 import FreeCanvas, { type FreeCanvasRef } from 'react-native-free-canvas';
 
@@ -83,7 +83,7 @@ export default function HomeScreen() {
   const onTranslate = useCallback(
     (x: number, y: number) => {
       'worklet';
-      runOnJS(mergeMetrics)({ tx: x, ty: y });
+      scheduleOnRN(mergeMetrics, { tx: x, ty: y });
     },
     [mergeMetrics],
   );
@@ -91,7 +91,7 @@ export default function HomeScreen() {
   const onScale = useCallback(
     (scale: number) => {
       'worklet';
-      runOnJS(mergeMetrics)({ scale });
+      scheduleOnRN(mergeMetrics, { scale });
     },
     [mergeMetrics],
   );
@@ -99,7 +99,7 @@ export default function HomeScreen() {
   const onTransformOriginChange = useCallback(
     (x: number, y: number) => {
       'worklet';
-      runOnJS(mergeMetrics)({ ox: x, oy: y });
+      scheduleOnRN(mergeMetrics, { ox: x, oy: y });
     },
     [mergeMetrics],
   );
