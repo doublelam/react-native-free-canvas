@@ -1,0 +1,57 @@
+# Publishes to npm when a GitHub Release is published (not drafts).
+#
+# Setup:
+# 1. Repository → Settings → Secrets and variables → Actions → New repository secret
+#    Name: NPM_TOKEN
+#    Value: npm "Granular Access Token" or "Automation" token with publish rights
+#    (if your npm account uses 2FA, use an Automation token so CI does not need OTP)
+# 2. Bump version in package.json on the branch you release from, merge, then create
+#    a release whose tag matches that version (e.g. tag v2.2.0 or 2.2.0 for version 2.2.0).
+
+name: Publish to npm
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: https://registry.npmjs.org
+          cache: yarn
+          cache-dependency-path: yarn.lock
+
+      - name: Verify release tag matches package.json version
+        env:
+          TAG_NAME: ${{ github.event.release.tag_name }}
+        run: |
+          REF="${TAG_NAME#v}"
+          PKG=$(node -p "require('./package.json').version")
+          if [ "$REF" != "$PKG" ]; then
+            echo "::error::Release tag '$TAG_NAME' must match package.json version '$PKG' (optional leading v on the tag)."
+            exit 1
+          fi
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build
+        run: yarn build
+
+      - name: Lint and typecheck
+        run: |
+          yarn eslint src --max-warnings 0
+          npx tsc --noEmit -p tsconfig.json
+
+      - name: Publish to npm
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish
