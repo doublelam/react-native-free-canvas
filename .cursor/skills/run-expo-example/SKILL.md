@@ -1,32 +1,55 @@
 ---
 name: run-expo-example
 description: >-
-  Test react-native-free-canvas via the Expo example: sync packed tarball then
-  start Metro. Use when verifying consumer install behavior or after library changes.
+  Run the Expo example app that consumes react-native-free-canvas from ../src.
+  Use when manually testing the library UI, after dependency upgrades, or when
+  verifying the example still starts with Metro.
 ---
 
 # Run Expo example (test the library)
 
-## Why not `file:..`?
+## How the example depends on the library
 
-Symlinking the repo root (`file:..`) makes Metro resolve **Reanimated / Skia** from the **library’s** `node_modules`, which duplicates native modules vs Expo Go. The example uses **`file:../.pack/react-native-free-canvas.tgz`** instead (same as a real **`npm install`**).
+`expo-example/package.json` uses **`"react-native-free-canvas": "../src"`** so Metro bundles **library source** from the repo. Run **`yarn build`** at the repo root when you need **`lib/`** artifacts (publish or type consumers); the example does not require the tarball for day-to-day UI work.
 
-## Commands (repository root)
+**Caveat:** If Metro ever resolves duplicate native copies of Skia/Reanimated, prefer a **packed install** (`npm pack` + `file:../.pack/…tgz`) for a consumer-faithful test (see **upgrade-dependencies** skill).
+
+## Commands
+
+**One command from repo root (install + start):**
 
 ```bash
-yarn example:sync    # yarn build + npm pack → .pack/react-native-free-canvas.tgz + yarn install in expo-example
-yarn test:expo       # sync + EXPO_OFFLINE=1 + expo start
-yarn expo:start      # start only (sync first if you changed the library)
+yarn demo
 ```
 
-`.pack/` is gitignored. Run **`yarn example:sync`** after clone or whenever `src/` / `lib/` changes.
+**Platform shortcuts:**
 
-## Outside this repo (simplest mental model)
+```bash
+yarn demo:ios
+yarn demo:android
+```
 
-From the library root: `yarn build && npm pack`, then in **any** Expo app: `yarn add file:/path/to/react-native-free-canvas-<version>.tgz`. No monorepo, no `expo-example` folder required.
+**Manual (same as `yarn demo` without the single alias):**
 
-## Notes
+```bash
+yarn --cwd expo-example install && yarn --cwd expo-example start
+```
 
-- Expo must be started from **`expo-example/`** (`yarn --cwd expo-example start` or root `yarn expo:start`).
-- If Expo Go / simulator issues: see README (`EXPO_OFFLINE`, online start, Expo Go install).
-- After Babel or dependency changes: `npx expo start --clear` from `expo-example/`.
+After **native** or **Babel** dependency changes:
+
+```bash
+cd expo-example && npx expo start --clear
+```
+
+## Verify library build (optional)
+
+From repo root:
+
+```bash
+yarn build
+yarn eslint src --max-warnings 0
+```
+
+## Outside this repo
+
+From the library root: `yarn build && npm pack`, then in any app: `yarn add file:/absolute/path/to/react-native-free-canvas-<version>.tgz`.

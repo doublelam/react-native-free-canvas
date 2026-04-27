@@ -1,14 +1,15 @@
-import { Stack } from 'expo-router';
-
+import 'react-native-gesture-handler';
 import 'react-native-reanimated';
+
+import { Slot } from 'expo-router';
 import React from 'react';
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-
+/**
+ * Single-route demo: use Slot so we do not mount a native Stack parallel to
+ * expo-router's own navigation tree. Declaring @react-navigation/native ^7 at
+ * the app root can resolve ahead of expo-router's bundled version and triggers
+ * "Couldn't find the prevent remove context / NavigationContent" errors.
+ */
 export default function RootLayout() {
-  return (
-    <Stack>
-      <Stack.Screen name="index" options={{ headerShown: false }} />
-    </Stack>
-  );
+  return <Slot />;
 }

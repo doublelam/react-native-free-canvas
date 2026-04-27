@@ -18,9 +18,9 @@
 | Build | `react-native-builder-bob` → `bob build` |
 | Package manager | Yarn 1 (`packageManager` field) |
 
-**Peer dependencies** (consumers must install): Skia ≥2, React ≥18, RN ≥0.72, gesture-handler ≥2, reanimated ≥3.
+**Peer dependencies** (consumers must install): Skia ≥2, React ≥18, RN ≥0.72, gesture-handler ≥2, reanimated ≥3, **worklets ≥0.5** (see root `package.json` `peerDependencies`).
 
-**Example app** (`expo-example/`): Expo ~54, Expo Router, depends on a **packed tarball** at **`file:../.pack/react-native-free-canvas.tgz`** (produced by **`yarn example:sync`** at the repo root) so installs match **`npm install`** without Metro monorepo hacks. See README “Develop and test”.
+**Example app** (`expo-example/`): Expo Router app; depends on **`react-native-free-canvas`** via **`file:../src`** (see `expo-example/package.json`). Use **`yarn --cwd expo-example install`** after changing library or example dependencies; clear Metro cache after native bumps (`npx expo start --clear`).
 
 ## Repository layout
 
@@ -28,7 +28,7 @@
 |------|------|
 | `src/` | Library source (the editable codebase) |
 | `lib/` | Generated publish artifacts (do not hand-edit; regenerate with `yarn build`) |
-| `expo-example/` | Demo app consuming **`.pack/react-native-free-canvas.tgz`** (see `yarn example:sync`) |
+| `expo-example/` | Demo app consuming **`react-native-free-canvas`** via **`file:../src`** (see `run-expo-example` skill) |
 | `eslint.config.js` | ESLint flat config |
 | `tsconfig.json` | TS config + path aliases `@root/*`, `@src/*` |
 | `package.json` | `exports` map for ESM/CJS + types |
@@ -69,12 +69,13 @@ Performance-related choices: `memo` on exported components, `useMemo` / `useCall
 
 ## Scripts and workflows
 
-- **Build library**: `yarn build` (runs `bob build`).
-- **Try locally (consumer-style)**: from repo root run **`yarn example:sync`**, then **`yarn test:expo`** or `yarn expo:start`. See README for the tarball workflow or for using a separate Expo app + `npm pack` outside this repo.
+- **Build library** (repo root): `yarn build` (runs `bob build`).
+- **Example app**: `yarn --cwd expo-example install`, then `yarn --cwd expo-example start` (or `cd expo-example && npx expo start`). After native dependency changes, use `npx expo start --clear`.
+- **Upgrading dependencies**: follow **`.cursor/skills/upgrade-dependencies/SKILL.md`** so root + `expo-example` stay aligned and README / this doc stay in sync.
 
 ## Version notes
 
-The root `package.json` pins RN 0.82 / Reanimated 4.x / Skia 2.3.x for library development; `expo-example` uses Expo SDK–aligned versions (e.g. RN 0.81, Skia 2.2) and loads the library from the **packed tarball** under `.pack/`.
+The root `package.json` **devDependencies** pin the library dev stack for CI and `bob build` (currently **RN 0.82.x**, **Reanimated 4.1.7**, **worklets 0.5.1**, **Skia 2.6.x**, **gesture-handler 2.31.x** — see that file for exact pins). **`expo-example`** stays on **Expo SDK 54** (`expo` ~54.0.x, **RN 0.81.x**, **Skia 2.2.12** per `expo install`, **Reanimated ~4.1.1** / **worklets 0.5.1**). Root and example intentionally differ slightly on RN/Skia minor while sharing the same **Reanimated + worklets** family validated for SDK 54. Re-run **`yarn install`** in both roots after any bump; use **`npx expo start --clear`** after native changes.
 
 ## Further reading
 

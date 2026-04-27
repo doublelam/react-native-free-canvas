@@ -69,6 +69,8 @@
     "babel.config.js",
     "metro.config.js",
     "jest.config.js",
+    "eslint.config.js",
+    "scripts",
     "expo-example"
   ],
   "extends": "@react-native/typescript-config/tsconfig.json"

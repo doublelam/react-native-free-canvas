@@ -3,6 +3,23 @@ Freehand sketch on canvas based on  [@shopify/react-native-skia](https://github.
 
 <img src="https://github.com/user-attachments/assets/240398a3-2ebf-4edc-bdf5-36812765e39b" width=200 />
 
+## Demo app (Expo)
+
+From the **repository root** (after `yarn install` here once, if you have not already):
+
+```bash
+yarn demo
+```
+
+That installs `expo-example` dependencies and starts Expo. Then press **`i`** (iOS), **`a`** (Android), or scan the QR code with Expo Go.
+
+Shortcuts:
+
+```bash
+yarn demo:ios
+yarn demo:android
+```
+
 ## Install
 You need to install following dependencies
 ```
@@ -10,9 +27,13 @@ You need to install following dependencies
 "react": ">=18.0.0",
 "react-native": ">=0.72.0",
 "react-native-gesture-handler": ">=2.0.0",
-"react-native-reanimated": ">=4.0.0",
-"react-native-worklets": "*",
+"react-native-reanimated": ">=3.0.0",
+"react-native-worklets": ">=0.5.0"
 ```
+
+`react-native-worklets` is required at runtime (the library uses `scheduleOnRN` from gesture/worklet code). Match the **worklets** version range your **Reanimated** package declares (e.g. Reanimated **4.1.x** supports worklets **0.5–0.8**; **Expo SDK 54** pins **0.5.1** alongside **Reanimated ~4.1**).
+
+Dependency upgrades in this repo: follow **`.cursor/skills/upgrade-dependencies/SKILL.md`** (or run the **upgrade-dependencies** command).
 
 ## Usage
 ```ts
