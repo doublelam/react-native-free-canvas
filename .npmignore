@@ -1,4 +1,45 @@
-expo-example
+# Published tarball is driven by package.json "files" (lib, src). These rules
+# exclude anything that must never ship to npm, and prune junk inside src/lib.
+
+# --- Example app & repo-only trees (not library consumers) ---
+expo-example/
+docs/
+scripts/
+.cursor/
+.github/
+
+# --- Dependencies & package managers ---
 node_modules/
-.vscode
-.yarn
+.yarn/
+.pnp.cjs
+.pnp.loader.mjs
+
+# --- Local / CI / editor ---
+.vscode/
+.idea/
+.expo/
+.pack/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.DS_Store
+coverage/
+.nyc_output/
+
+# --- Dev config at repo root (not needed in node_modules install) ---
+eslint.config.js
+tsconfig.json
+.editorconfig
+.gitattributes
+yarn.lock
+package-lock.json
+
+# --- Tests & snapshots (if added under src/ later) ---
+**/__tests__/
+**/__mocks__/
+**/*.test.ts
+**/*.test.tsx
+**/*.spec.ts
+**/*.spec.tsx
+**/*.snap

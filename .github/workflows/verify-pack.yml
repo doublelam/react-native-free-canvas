@@ -1,0 +1,29 @@
+name: Verify pack and example
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: yarn
+          cache-dependency-path: |
+            yarn.lock
+            expo-example/yarn.lock
+
+      - name: Install root dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Sync packed library into expo-example
+        run: yarn example:sync
+
+      - name: Typecheck example app
+        run: cd expo-example && npx tsc --noEmit

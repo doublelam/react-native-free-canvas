@@ -1,0 +1,30 @@
+---
+description: Conventions for react-native-free-canvas library (Skia, Reanimated, gestures)
+globs: src/**/*.{ts,tsx}
+alwaysApply: false
+---
+
+# react-native-free-canvas
+
+## Stack
+
+- Skia (`@shopify/react-native-skia`) for `Canvas` / `Path` / snapshots.
+- Reanimated shared values and worklets; `react-native-gesture-handler` for pan/pinch.
+- Use `scheduleOnRN` from `react-native-worklets` when calling React state setters from gesture/worklet code or animated reactions (not `runOnJS`, which is deprecated). See `drawing-canvas.tsx` and `index.tsx`.
+
+## Style (match repo)
+
+- Prettier: single quotes, trailing commas, avoid arrow parens when single arg.
+- Prefer `StyleSheet` from `styles.ts` over new inline style objects on hot paths (README calls this out for `flex: 1`).
+- Components: `forwardRef` + `memo` for canvas pieces; co-locate prop types in `types.ts` for public API.
+- Use `import type` for type-only imports.
+- Mark UI-thread callbacks with `'worklet'` where required.
+
+## Architecture
+
+- Do not edit `lib/` — run `yarn build` after changing `src/`.
+- Two layers: `DrawingCanvas` (live stroke + gestures) over `DrawnCanvas` (committed paths). Context in `canvas-context.ts`; path completion sync uses `promises-delivery`.
+
+## Types / API
+
+- Extend `FreeCanvasProps` / `FreeCanvasRef` in `types.ts` when adding props or ref methods; export types from `index.tsx` as today.
