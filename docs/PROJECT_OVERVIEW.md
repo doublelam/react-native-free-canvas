@@ -18,7 +18,7 @@
 | Build | `react-native-builder-bob` → `bob build` |
 | Package manager | Yarn 1 (`packageManager` field) |
 
-**Peer dependencies** (consumers must install): Skia ≥2, React ≥18, RN ≥0.72, gesture-handler ≥2, reanimated ≥3, **worklets ≥0.5** (see root `package.json` `peerDependencies`).
+**Peer dependencies** (consumers must install): Skia ≥2, React ≥18, RN ≥0.72, gesture-handler ≥2, **Reanimated ≥4.1**, **worklets ≥0.5** — match **worklets** to the **Reanimated** version you use (`peerDependencies` on those packages: 4.2.x needs worklets ≥0.7, 4.3.x needs worklets 0.8.x; see root `package.json`).
 
 **Example app** (`expo-example/`): Expo Router app; depends on **`react-native-free-canvas`** via **`file:../src`** (see `expo-example/package.json`). Use **`yarn --cwd expo-example install`** after changing library or example dependencies; clear Metro cache after native bumps (`npx expo start --clear`).
 
