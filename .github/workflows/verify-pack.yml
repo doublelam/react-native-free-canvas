@@ -22,8 +22,13 @@ jobs:
       - name: Install root dependencies
         run: yarn install --frozen-lockfile
 
-      - name: Sync packed library into expo-example
-        run: yarn example:sync
+      - name: Build library and verify npm pack
+        run: |
+          yarn build
+          npm pack --dry-run
+
+      - name: Install example dependencies
+        run: yarn --cwd expo-example install --frozen-lockfile
 
       - name: Typecheck example app
         run: cd expo-example && npx tsc --noEmit
