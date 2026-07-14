@@ -2,6 +2,8 @@
   "compilerOptions": {
     "esModuleInterop": true,
     "skipLibCheck": true,
+    "rootDir": "./src",
+    "ignoreDeprecations": "6.0",
     // "experimentalDecorators": true,
     /* Basic Options */
     // "target": "esnext", /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017','ES2018' or 'ESNEXT'. */
@@ -68,6 +70,7 @@
   },
   "exclude": [
     "node_modules",
+    "lib",
     "babel.config.js",
     "metro.config.js",
     "jest.config.js",

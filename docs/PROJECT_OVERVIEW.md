@@ -18,7 +18,7 @@
 | Build | `react-native-builder-bob` → `bob build` |
 | Package manager | Yarn 1 (`packageManager` field) |
 
-**Peer dependencies** (consumers must install): Skia ≥2, React ≥18, RN ≥0.72, gesture-handler ≥2, **Reanimated ≥4.1**, **worklets ≥0.5** — match **worklets** to the **Reanimated** version you use (`peerDependencies` on those packages: 4.2.x needs worklets ≥0.7, 4.3.x needs worklets 0.8.x; see root `package.json`).
+**Peer dependencies** (consumers must install): Skia ≥2, React ≥18, RN ≥0.72, gesture-handler ≥2, **Reanimated ≥4.1**, **worklets ≥0.5** — match **worklets** to the **Reanimated** version you use (`peerDependencies` on those packages: **4.5.x** needs **worklets 0.10.x**; see root `package.json`).
 
 **Example app** (`expo-example/`): Expo Router app; depends on **`react-native-free-canvas`** via **`file:../src`** (see `expo-example/package.json`). Use **`yarn --cwd expo-example install`** after changing library or example dependencies; clear Metro cache after native bumps (`npx expo start --clear`).
 
@@ -75,7 +75,7 @@ Performance-related choices: `memo` on exported components, `useMemo` / `useCall
 
 ## Version notes
 
-The root `package.json` **devDependencies** pin the library dev stack for CI and `bob build` (currently **RN 0.85.x**, **Reanimated 4.3.x**, **worklets 0.8.x**, **Skia 2.6.x**, **gesture-handler 2.31.x** — see that file for exact pins). **`expo-example`** tracks **Expo SDK 55** (`expo` ~55.0.x, **RN 0.83.x**, **Skia 2.4.x** per `expo install`, **Reanimated ~4.2** / **worklets 0.7.x**). The example follows Expo’s pinned matrix; the root is often **one RN minor ahead** for typecheck and `bob` while keeping **Reanimated + worklets** internally consistent per their peers. Re-run **`yarn install`** in both roots after any bump; use **`npx expo start --clear`** after native changes. **Expo SDK 55** expects a current **Xcode** toolchain for local iOS prebuilds (see `npx expo-doctor` / [Expo–Xcode compatibility](https://expo.fyi/expo-sdk-xcode-compatibility)); Expo Go or EAS builds may still work on older hosts.
+The root `package.json` **devDependencies** pin the library dev stack for CI and `bob build` (currently **RN 0.86.x**, **Reanimated 4.5.x**, **worklets 0.10.x**, **Skia 2.8.x**, **gesture-handler 2.32.x**, **TypeScript 6.0.x** — see that file for exact pins). **`expo-example`** tracks **Expo SDK 57** (`expo` ~57.0.x, **RN 0.86.x**, **Skia 2.6.x** per `expo install`, **Reanimated 4.5.x** / **worklets 0.10.x**). The example follows Expo’s pinned matrix; the root may sit slightly newer on Skia / Reanimated patch for typecheck and `bob` while keeping **Reanimated + worklets** internally consistent per their peers. Re-run **`yarn install`** in both roots after any bump; use **`npx expo start --clear`** after native changes. **Expo SDK 57** expects a current **Xcode** toolchain for local iOS prebuilds (see `npx expo-doctor` / [Expo–Xcode compatibility](https://expo.fyi/expo-sdk-xcode-compatibility)); Expo Go or EAS builds may still work on older hosts.
 
 ## Further reading
 
