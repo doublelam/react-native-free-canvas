@@ -25,6 +25,14 @@ import { scheduleOnRN } from 'react-native-worklets';
 
 import FreeCanvas, { type FreeCanvasRef } from 'react-native-free-canvas';
 
+import {
+  LIBRARY_DIRTY,
+  LIBRARY_GIT_SHA,
+  LIBRARY_NAME,
+  LIBRARY_SOURCE,
+  LIBRARY_VERSION,
+} from '../generated/library-build-info';
+
 const STROKE_PRESETS = [
   { color: '#38bdf8', label: 'Sky' },
   { color: '#f472b6', label: 'Pink' },
@@ -207,6 +215,10 @@ export default function HomeScreen() {
         <Text style={styles.title}>Free canvas</Text>
         <Text style={styles.subtitle}>
           Draw · pinch zoom · two-finger pan{zoomable ? '' : ' (zoom off)'}
+        </Text>
+        <Text style={styles.versionLine}>
+          {LIBRARY_NAME} v{LIBRARY_VERSION} · {LIBRARY_GIT_SHA}
+          {LIBRARY_DIRTY ? '*' : ''} ({LIBRARY_SOURCE})
         </Text>
         <View style={styles.metricsRow}>
           <View style={styles.metricChip}>
@@ -451,6 +463,12 @@ const styles = StyleSheet.create({
     marginTop: 4,
     fontSize: 14,
     color: '#94a3b8',
+  },
+  versionLine: {
+    marginTop: 6,
+    fontSize: 12,
+    color: '#64748b',
+    fontVariant: ['tabular-nums'],
   },
   metricsRow: {
     flexDirection: 'row',

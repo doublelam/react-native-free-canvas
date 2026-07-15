@@ -10,7 +10,11 @@ description: >-
 
 ## How the example depends on the library
 
-`expo-example/package.json` uses **`"react-native-free-canvas": "../src"`** so Metro bundles **library source** from the repo. Run **`yarn build`** at the repo root when you need **`lib/`** artifacts (publish or type consumers); the example does not require the tarball for day-to-day UI work.
+`expo-example/package.json` uses **`"react-native-free-canvas": "link:../src"`** so `node_modules/react-native-free-canvas` is a **symlink to `src/`** (live edits; not a Yarn copy). Do **not** use `link:..` — that exposes the whole monorepo (nested `expo-example` + library `node_modules`) and breaks Metro with duplicate React/Skia.
+
+`expo-example/metro.config.js` watches **`../src` only**, forces resolution to `src/index.tsx`, and pins peer deps to the example’s `node_modules`. After changing Metro config, restart with **`npx expo start --clear`**.
+
+The demo header shows **`react-native-free-canvas vX.Y.Z · <sha>[*] (src)`** from `generated/library-build-info.ts` (created by `yarn generate:library-build-info` on install/start). `*` means a dirty git working tree.
 
 **Caveat:** If Metro ever resolves duplicate native copies of Skia/Reanimated, prefer a **packed install** (`npm pack` + `file:../.pack/…tgz`) for a consumer-faithful test (see **upgrade-dependencies** skill).
 

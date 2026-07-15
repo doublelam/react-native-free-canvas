@@ -1,6 +1,6 @@
 {
   "name": "react-native-free-canvas",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "A high-performance drawing and sketching library for React Native, built on @shopify/react-native-skia, with smooth zoom and pan functionalities.",
   "scripts": {
     "build": "bob build",
@@ -9,6 +9,7 @@
     "demo:android": "yarn --cwd expo-example install && yarn --cwd expo-example android"
   },
   "source": "./src/index.tsx",
+  "react-native": "./src/index.tsx",
   "main": "./lib/module/index.js",
   "exports": {
     "import": {

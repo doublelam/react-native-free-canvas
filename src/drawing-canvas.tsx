@@ -41,14 +41,15 @@ const DrawingCanvas = forwardRef<CanvasRef, DrawingCanvasProps>(
     },
     ref,
   ) => {
-    const pathSharedVal = useSharedValue(Skia.Path.Make());
+    const pathBuilderSharedVal = useSharedValue(Skia.PathBuilder.Make());
     const sizeSharedVal = useSharedValue({ width: 0, height: 0 });
     const zoomingSharedVal = useSharedValue(false);
     const derivedPathSharedVal = useDerivedValue(
-      () => pathSharedVal.value.toSVGString(),
+      () => pathBuilderSharedVal.value.build().toSVGString(),
       [],
     );
     const context = useContext(CanvasContext);
+    const { setScale, setTranslate, finalize } = context ?? {};
     const changeDrawing = useCallback(
       (clear: boolean) => {
         context?.setDrawingPath(
@@ -66,13 +67,17 @@ const DrawingCanvas = forwardRef<CanvasRef, DrawingCanvasProps>(
 
     const addDrawn = useCallback((path: DrawnPath) => {
       context?.pathCompleteDelivery.register(path.key).then(() => {
-        pathSharedVal.modify(v => {
-          'worklet';
+        // Delay reset so the drawn path can finish rendering first
+        // and avoid a brief flash when the live stroke is cleared.
+        setTimeout(() => {
+          pathBuilderSharedVal.modify(v => {
+            'worklet';
 
-          v.reset();
-          return v;
-        });
-        onDrawEnd?.();
+            v.reset();
+            return v;
+          });
+          onDrawEnd?.();
+        }, 16);
       });
       context?.addDrawnPath(path);
     }, []);
@@ -98,14 +103,14 @@ const DrawingCanvas = forwardRef<CanvasRef, DrawingCanvasProps>(
               return;
             }
             zoomingSharedVal.value = true;
-            context?.setScale(e.focalX, e.focalY, e.scale);
+            setScale?.(e.focalX, e.focalY, e.scale);
           })
           .onFinalize(() => {
             'worklet';
 
             zoomingSharedVal.value = false;
           }),
-      [zoomable],
+      [zoomable, setScale],
     );
 
     const panGesture = useMemo(
@@ -121,7 +126,7 @@ const DrawingCanvas = forwardRef<CanvasRef, DrawingCanvasProps>(
             if (zoomingSharedVal.value || e.numberOfPointers > 1) {
               return;
             }
-            pathSharedVal.modify(v => {
+            pathBuilderSharedVal.modify(v => {
               v.reset();
               v.moveTo(touch.x || 0, touch.y || 0);
               v.lineTo(touch.x || 0, touch.y || 0);
@@ -133,13 +138,13 @@ const DrawingCanvas = forwardRef<CanvasRef, DrawingCanvasProps>(
             'worklet';
 
             if (e.numberOfPointers > 1 && zoomable) {
-              context?.setTranslate(e.translationX, e.translationY);
+              setTranslate?.(e.translationX, e.translationY);
               return;
             }
-            if (pathSharedVal.value.isEmpty()) {
+            if (pathBuilderSharedVal.value.isEmpty()) {
               return;
             }
-            pathSharedVal.modify(v => {
+            pathBuilderSharedVal.modify(v => {
               v.lineTo(e.x || 0, e.y || 0);
               return v;
             });
@@ -147,11 +152,11 @@ const DrawingCanvas = forwardRef<CanvasRef, DrawingCanvasProps>(
           .onFinalize(e => {
             'worklet';
 
-            context?.finalize();
+            finalize?.();
             if (
               zoomingSharedVal.value ||
               e.numberOfPointers > 1 ||
-              pathSharedVal.value.isEmpty()
+              pathBuilderSharedVal.value.isEmpty()
             ) {
               return;
             }
@@ -163,7 +168,7 @@ const DrawingCanvas = forwardRef<CanvasRef, DrawingCanvasProps>(
               path: getSharedValue(derivedPathSharedVal),
             });
           }),
-      [strokeWidth, strokeColor],
+      [strokeWidth, strokeColor, setTranslate, finalize, zoomable],
     );
 
     const composedGesture = Gesture.Simultaneous(panGesture, pinchGesture);

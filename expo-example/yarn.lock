@@ -5123,6 +5123,11 @@ promise@^8.3.0:
   dependencies:
     asap "~2.0.6"
 
+promises-delivery@1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/promises-delivery/-/promises-delivery-1.1.0.tgz#850bcf4e38f6514d3925c68ab6dbf7f12e02ce92"
+  integrity sha512-tYcJnNJmcBBOnRsBAJ/6eUylekdk+0lyAv3y2L72ai+fD4UPvW4luKkyywTdmnUeZIQsd/F1V0Nimt8QhlDMtQ==
+
 prompts@^2.0.1, prompts@^2.2.1, prompts@^2.3.2:
   version "2.4.2"
   resolved "https://registry.yarnpkg.com/prompts/-/prompts-2.4.2.tgz#7b57e73b3a48029ad10ebd44f74b01722a4cb069"
@@ -5221,8 +5226,9 @@ react-native-drawer-layout@^4.2.2:
     color "^4.2.3"
     use-latest-callback "^0.2.4"
 
-react-native-free-canvas@../src:
+"react-native-free-canvas@link:../src":
   version "0.0.0"
+  uid ""
 
 react-native-gesture-handler@~2.32.0:
   version "2.32.0"
